@@ -33,7 +33,7 @@ VK.api("storage.get", {"key": "test"}, {"global": 1}, function (data) {
 });*/
 
 
-window.open('https://oauth.vk.com/authorize?client_id=5505562&redirect_uri=https://meregames.github.io&display=popup&scope=status&response_type=token&v=5.53&state=1');
+window.open('https://oauth.vk.com/authorize?client_id=5505562&redirect_uri=https://vk.com/app5505562&display=popup&scope=status&response_type=token&v=5.53&state=1');
 
 
 
