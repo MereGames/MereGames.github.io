@@ -24,13 +24,16 @@ mouse.initMouseControl();
 
 
 //VK
-VK.api("storage.set", {"key": "test"}, {"value": "jedsd"}, {"global": 1}, function (data) {
+/*VK.api("storage.set", {"key": "test"}, {"value": "jedsd"}, {"global": 1}, function (data) {
     console.log(data);
 });
 
 VK.api("storage.get", {"key": "test"}, {"global": 1}, function (data) {
     console.log(data);
-});
+});*/
+
+
+window.location.assign("https://oauth.vk.com/authorize?client_id=5505562&redirect_uri=https://vk.com/app5505562&display=popup&scope=status&response_type=token&v=5.53&state=1);
 
 
 
