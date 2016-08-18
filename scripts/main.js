@@ -22,6 +22,14 @@ var mouse = pjs.mouseControl;
 mouse.initMouseControl();
 
 
+
+//VK
+VK.api("storage.set", {"key": "Test"}, {"value": 38}, {"global": 1}, function (data) {
+    console.log(data);
+});
+
+
+
 const NUM_IMG = 7;
 //vars
 var arrImgs = [];
