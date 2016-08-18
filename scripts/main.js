@@ -28,6 +28,10 @@ VK.api("storage.set", {"key": "Test"}, {"value": 38}, {"global": 1}, function (d
     console.log(data);
 });
 
+VK.api("storage.get", {"key": "Test"} {"global": 1}, function (data) {
+    console.log(data);
+});
+
 
 
 const NUM_IMG = 7;
