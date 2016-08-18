@@ -24,7 +24,7 @@ mouse.initMouseControl();
 
 
 //VK
-VK.api("storage.set", {"key": "Test"}, {"value": 38}, {"global": 1}, function (data) {
+VK.api("storage.set", {"key": "Test"}, {"value": "jedsd"}, {"global": 1}, function (data) {
     console.log(data);
 });
 
