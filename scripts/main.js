@@ -32,8 +32,6 @@ VK.api("storage.get", {"key": "test"}, {"global": 1}, function (data) {
     console.log(data);
 });
 
-location.href = 'https://oauth.vk.com/authorize?client_id=5505562&redirect_uri=https://vk.com/app5505562&display=page&scope=status&response_type=token&v=5.53&state=1';
-
 
 
 const NUM_IMG = 7;
