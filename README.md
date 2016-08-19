@@ -1,2 +1,4 @@
-# test.github.io
-none
+#Games for VK
+
+copyright Mere Games 2016
+
