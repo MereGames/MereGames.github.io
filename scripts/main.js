@@ -24,12 +24,12 @@ mouse.initMouseControl();
 
 
 //VK
-VK.api('storage.set', {key: 'TestVal'}, {value: 201}, {global: 1}, function (data) {
+VK.api('storage.set', {key: 'TestVal', value: 201, global: 1}, function (data) {
     console.log(data.response);
 });
 
 setInterval(function (){
-	VK.api('storage.get', {key: 'TestVal'}, {global: 1}, function (data) {
+	VK.api('storage.get', {key: 'TestVal', global: 1}, function (data) {
     console.log(data.response);
 });
 }, 1200);
