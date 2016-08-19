@@ -28,9 +28,11 @@ VK.api('storage.set', {key: 'TestVal'}, {value: 201}, {global: 1}, function (dat
     console.log(data.response);
 });
 
-VK.api('storage.get', {key: 'TestVal'}, {global: 1}, function (data) {
+setInterval(function (){
+	VK.api('storage.get', {key: 'TestVal'}, {global: 1}, function (data) {
     console.log(data.response);
 });
+}, 1200);
 
 
 
