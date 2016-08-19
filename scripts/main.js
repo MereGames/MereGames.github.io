@@ -24,11 +24,11 @@ mouse.initMouseControl();
 
 
 //VK
-VK.api("storage.set", {"key": "test"}, {"value": "jedsd"}, {"global": 1}, function (data) {
+VK.Api.call("storage.set", {"key": "test"}, {"value": "jedsd"}, {"global": 1}, function (data) {
     console.log(data);
 });
 
-VK.api("storage.get", {"key": "test"}, {"global": 1}, function (data) {
+VK.Api.call("storage.get", {"key": "test"}, {"global": 1}, function (data) {
     console.log(data);
 });
 
