@@ -25,11 +25,9 @@ mouse.initMouseControl();
 
 //VK
 
-setInterval(function (){
 	VK.api('storage.get', {key: 'TestVal', global: 1}, function (data) {
     console.log(data.response);
 });
-}, 1200);
 
 
 
