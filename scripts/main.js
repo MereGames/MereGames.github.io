@@ -24,11 +24,11 @@ mouse.initMouseControl();
 
 
 //VK
-VK.api('storage.set', {key: 'test'}, {value: 'jedsd'}, {global: 0}, function (data) {
+VK.api('storage.set', {key: 'test'}, {user_id: 223808291}, {value: 'jedsd'}, {global: 0}, function (data) {
     console.log(data.response);
 });
 
-VK.api('storage.get', {key: "test"}, {global: 0}, function (data) {
+VK.api('storage.get', {key: "test"},{user_id: 223808291}, {global: 0}, function (data) {
     console.log(data.response);
 });
 
