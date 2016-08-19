@@ -140,6 +140,9 @@ function draw() {
 	ball.draw();
 	player.draw();
 	enemy.draw();
+	
+	var data = location.search=access_token;
+	console.log(data);
 
 	brush.drawText({
 		text: numPl + ":" + numEm,
