@@ -6,43 +6,96 @@
 *
 **/
 
+var viewFPS = true;
 var startFPS = 60;
+
 var allObjsGame = [];
 
-var mainPlayer = game.newAnimationObject({
-	animation: tiles.newImage("img/player.png").getAnimation(0, 0, 109, 200, 1),
-	x: 0, y: 0,
-	w: 70, h: 120,
-	angle: 0,
-	alpha: 1,
-	visible: true
+var numPoints = 10;
+
+//Rects
+var rectMenu = game.newImageObject({
+	w: 400, h: 300,
+	x: gameWidth/2 - (200), y: gameHeight/2 - 150,
+	file: "img/border.png"
 });
 
 allObjsGame.push(mainPlayer);
 
-// ================ 'main' loop =============
-game.newLoop('main', function () {
+// ================ 'game' loop =============
+game.newLoop('game', function () {
 	//Clear All
 	// ------ game.clear();
 
 	//Fill canvas
 	game.fill('#777');
 
-	//Fps game
-	fpsGame = system.getFPS();
-	brush.drawTextS({
-		x: gameWidth, y: 0,
-		size: 25,
-		align: "right",
-		color: "#fff",
-		text: fpsGame + "FPS"
-	});
+	draw();
 
-	//drawArrObjs
-	OOP.drawArr(allObjsGame);
+	//Fps game
+	if(viewFPS == true) {
+	    fpsGame = system.getFPS();
+	    brush.drawTextS({
+		    x: gameWidth, y: 0,
+		    size: 25,
+		    align: "right",
+		    color: "#fff",
+		    text: fpsGame + "FPS"
+	    });
+    }
 });
 
-// Loop loading -------
+// -- Loop menu game --
+game.newLoop('menu', function () {
+	//Clear All
+	// ------ game.clear();
+
+	//Fill canvas
+	game.fill('#555');
+
+	rectMenu.draw();
+
+	key.setInputMode(true);
+
+	var char = key.getInputChar();
+    var iKey = key.getInputKey();
+
+    if(inputText.length < 10 && char) {
+    	inputText += char;
+    }
+
+    if(iKey) {
+    	 if (iKey == 'BACKSPACE') {
+          inputText = inputText.substr(0, inputText.length - 1);
+        }
+    }
+
+	brush.drawText({
+		x: gameWidth/2, y: gameHeight - 50,
+		size: 25,
+		align: "center",
+		color: "#fff",
+		font: "cursive",
+		text: inputText,
+	});
+
+	mainPlayer.drawFrames(0,1);
+	mainPlayer.setPosition(point(gameWidth/2 - rectMenu.w/2 + 70, gameHeight/2 - mainPlayer.h/2 + 20));
+
+	//Fps game - end layer
+	if(viewFPS == true) {
+	    fpsGame = system.getFPS();
+	    brush.drawTextS({
+		    x: gameWidth, y: 0,
+		    size: 25,
+		    align: "right",
+		    color: "#fff",
+		    text: fpsGame + "FPS"
+	    });
+    }
+});
+
+// -- Loop loading --
 game.newLoop('loading', function () {
 	//Clear All
 	// ---- game.clear();
@@ -50,15 +103,6 @@ game.newLoop('loading', function () {
 	//Fill canvas
 	game.fill('#999');
 
-	//Fps game
-	fpsGame = system.getFPS();
-	brush.drawText({
-		x: gameWidth, y: 0,
-		size: 25,
-		align: "right",
-		color: "#fff",
-		text: fpsGame + "FPS"
-	});
 
 	brush.drawText({
 		x: gameWidth/2, y: gameHeight - 50,
@@ -70,9 +114,39 @@ game.newLoop('loading', function () {
 	});
 
 	if(resources.isLoaded()) {
-		game.startLoop('main');
+		game.startLoop('menu');
+		gameLog('Go to menu', 'RPG');
 	}
+
+	//Fps game - and layer
+	if(viewFPS == true) {
+	    fpsGame = system.getFPS();
+	    brush.drawTextS({
+		    x: gameWidth, y: 0,
+		    size: 25,
+		    align: "right",
+		    color: "#fff",
+		    text: fpsGame + "FPS"
+	    });
+    }
 });
+
+//Draw ------
+function draw() {
+	//drawArrObjs
+	testBg.draw();
+	//OOP.drawArr(allObjsGame);
+	mainPlayer.drawFrames(0,0);
+}
+
+//Analog console.log...
+function gameLog(text, type) {
+	console.log("*------------------------------*\n[" + type + "]" + text + "\n*------------------------------*");
+}
 
 game.startLoop('loading');
 game.setFPS(startFPS);
+
+
+//Window
+window.location.indexOf = "";

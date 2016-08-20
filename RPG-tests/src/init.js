@@ -1,4 +1,15 @@
-var pjs = new PointJS('2d', 950, 550);
+/**
+*
+* @ Copyryght Mere Games 2016
+* @ support@meregames.ru
+* @ Mail - meregames@mail.ru
+*
+**/
+
+
+
+//init PointJs
+var pjs = new PointJS('2d', 950, 500);
 
 var log = pjs.system.log;
 var game = pjs.game;
@@ -13,6 +24,7 @@ var w2h = vector.w2h;
 var system = pjs.system;
 var resources = pjs.resources;
 var tiles = pjs.tiles;
+var dialogs = pjs.dialogs;
 
 var key = pjs.keyControl;
 key.initKeyControl();
