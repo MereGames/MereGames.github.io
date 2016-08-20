@@ -88,6 +88,7 @@ var but = pjs.GUI.newButton({
 function resizeObjs() {
 	gameBg.setSize(w2h(gameWidth, gameHeight));
 	VK.callMethod("resizeWindow", gameWidth, gameHeight);
+	system.initFullScreen();
 }
 
 
