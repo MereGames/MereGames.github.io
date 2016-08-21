@@ -7,5 +7,5 @@
 **/
 
 
-//Input
-var inputText = "";
+//Input text
+var inputText = "Имя игрока (макс. 10)";

@@ -11,6 +11,7 @@
 //init PointJs
 var pjs = new PointJS('2d', 950, 500);
 
+//Main init var
 var log = pjs.system.log;
 var game = pjs.game;
 var point = pjs.vector.point;
@@ -26,15 +27,21 @@ var resources = pjs.resources;
 var tiles = pjs.tiles;
 var dialogs = pjs.dialogs;
 
+//Context canvas
+var ctx = system.getContext();
+
+//Keyboard
 var key = pjs.keyControl;
 key.initKeyControl();
 
+//FPS
 pjs.system.initFPSCheck();
+var fpsGame = pjs.system.getFPS();
 
+//Mouse
 var mouse = pjs.mouseControl;
 mouse.initMouseControl();
 
+//Sizes
 var gameWidth = game.getWH().w;
 var gameHeight = game.getWH().h;
-
-var fpsGame = pjs.system.getFPS();

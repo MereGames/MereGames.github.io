@@ -17,3 +17,31 @@ var mainPlayer = game.newAnimationObject({
 	alpha: 1,
 	visible: true
 });
+
+//My data for obj 'player'
+mainPlayer.setUserData({
+	//Baze
+	health: 10,
+	defent: 4,
+	dameg: 8,
+	skilGmg: 2,
+
+	activ: false,
+
+	//num Frames
+	strFram: 0,
+	endFram: 1,
+
+	playAnim: function (anim) {
+		//Set Type Animation
+		if(anim == "stop") {
+			if(this.strFram != 0 || this.endFram != 1) {
+				this.strFram = 0;
+				this.endFram = 1;
+			}
+	    }
+
+	    //draw frames
+	    this.drawFrames(this.strFram, this.endFram);
+	}
+});
