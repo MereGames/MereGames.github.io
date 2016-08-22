@@ -258,7 +258,7 @@ game.newLoop('loading', function () {
 		text: "Загрузка... " +  resources.getProgress() + "%",
 	});
 
-	if(resources.isLoaded()) {
+	if(resources.isLoaded() && resources.getProgress() >= 100) {
 		game.startLoop('menu');
 		gameLog('Go to menu', 'RPG', 'Done');
 		// @ New pos player
@@ -326,8 +326,11 @@ function gameLog(text, type, stat) {
 }
 
 //Start Game!!!
-game.startLoop('loading');
-game.setFPS(startFPS);
+system.addEvent("onload", "loadPage", function () {
+	game.startLoop('loading');
+    game.setFPS(startFPS);
+    system.delEvent("onload", "loadPage");
+});
 
 //Version PointJS
 log("Engine: PointJS 0.5.7");
