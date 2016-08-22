@@ -67,11 +67,10 @@ game.newLoop('menu', function () {
 	game.fill('#555');
 
 	//Background menu
-	brush.drawImage({
-		x: 0, y: 0,
-		w: gameWidth, h: gameHeight,
-		file: "img/menu_bg.png"
-	});
+	if(menuBg.loaded) {
+		log("load img");
+	}
+	menuBg.draw();
 
 	rectMenu.draw();
 
@@ -327,10 +326,11 @@ function gameLog(text, type, stat) {
 
 //Start Game!!!
 system.addEvent("onload", "loadPage", function () {
-	game.startLoop('loading');
-    game.setFPS(startFPS);
+	gameLog("Page load!", "ELOAD", "Done");
     system.delEvent("onload", "loadPage");
 });
+game.startLoop('loading');
+game.setFPS(startFPS);
 
 //Version PointJS
 log("Engine: PointJS 0.5.7");

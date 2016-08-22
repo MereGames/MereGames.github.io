@@ -26,6 +26,13 @@ var rectMenu = game.newImageObject({
 	file: "img/menu.png"
 });
 
+//Bg - menu
+var menuBg = game.newImageObject({
+	x: 0, y: 0,
+	w: gameWidth, h: gameHeight,
+	file: "img/menu_bg.png"
+});
+
 var addY = -60; var addX = 47;
 
 for(let i = 4; i--;) {
