@@ -37,10 +37,21 @@ key.initKeyControl();
 //FPS
 pjs.system.initFPSCheck();
 var fpsGame = pjs.system.getFPS();
+function drawFPS() {
+	fpsGame = system.getFPS();
+	    brush.drawTextS({
+		x: gameWidth, y: 0,
+		size: 25,
+		align: "right",
+		color: "#fff",
+		text: fpsGame + "FPS"
+	});
+}
 
 //Mouse
 var mouse = pjs.mouseControl;
 mouse.initMouseControl();
+mouse.setCursorImage("img/cur_def.png");
 
 //Sizes
 var gameWidth = game.getWH().w;

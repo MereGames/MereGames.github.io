@@ -14,82 +14,107 @@ const NUM_SCANES = 1;
 var arrPlusMenu = [];
 var arrMinusMenu = [];
 
-var scanesGameArr = [];
+var scaneGame = {};
+var menuBg = {};
+var rectMenu = {};
+var inputObj = {};
+var blankObj = {};
 
-//backgrounds game ====================
-for(let i = NUM_SCANES; i--;) {
-	var scane = game.newImageObject({
+//For Plus and Minus
+var addY = -60; var addX = 47;
+
+
+
+
+
+//Del path ---------
+function deletPath(path, id) {
+	scaneGame  = null;
+
+	if(path == "menu") {
+	    menuIconsObjs = [];
+	    arrMinusMenu = [];
+	    arrPlusMenu = [];
+
+	    menuBg = {};
+	    rectMenu = {};
+	    inputObj = {};
+	    blankObj = {};
+    }
+}
+
+//load path ---------
+function loadPath(path, id) {
+	//Scane
+    scaneGame = game.newImageObject({
 	    x: 0, y: 0,
 	    w: gameWidth, h: gameHeight,
-	    file: "img/scane_0.png"
+	    file: "maps/img/scane_" + id + ".png"
     });
 
-    scanesGameArr.push(scane);
-}
+    //Menu load
+    if(path == "menu") {
+    	//Icons Menu
+        for(let i = 0; i < 4; i+= 1) {
+	        let iconObj = game.newImageObject({
+		        x: gameWidth/2 - 10, y: gameHeight/2 - 80 + (46*i),
+		        w: 50, h: 50,
+		        file: "img/icon_" + i + ".png"
+	        });
+	        menuIconsObjs.push(iconObj);
+        }
+        //Plus and Minus
+        for(let i = 4; i--;) {
 
-//Bg - menu
-var menuBg = game.newImageObject({
-	x: 0, y: 0,
-	w: gameWidth, h: gameHeight,
-	file: "img/menu_bg.png"
-});
+	        let butPlus = game.newImageObject({
+	            w: 20, h: 20,
+	            x: 0, y: 0,
+	            file: "img/plus.png"
+            });
+            let butMinus = game.newImageObject({
+	            w: 20, h: 20,
+	            x: 0, y: 0,
+	            file: "img/minus.png"
+            });
 
+	        butMinus.x = gameWidth/2 + addX;
+	        butPlus.x = gameWidth/2 + addX + 65;
 
+	        butMinus.y = gameHeight/2 + addY;
+	        butPlus.y = gameHeight/2 + addY;
 
-//Menu
-var rectMenu = game.newImageObject({
-	w: 400, h: 300,
-	x: gameWidth/2 - (200), y: gameHeight/2 - 150,
-	file: "img/menu.png"
-});
+	        arrPlusMenu.push(butPlus);
+	        arrMinusMenu.push(butMinus);
 
-var addY = -60; var addX = 47;
-for(let i = 4; i--;) {
+	       addY += 45;
+        }
 
-	let butPlus = game.newImageObject({
-	    w: 20, h: 20,
-	    x: 0, y: 0,
-	    file: "img/plus.png"
-    });
-    let butMinus = game.newImageObject({
-	    w: 20, h: 20,
-	    x: 0, y: 0,
-	    file: "img/minus.png"
-    });
+        //Bg - menu
+        menuBg = game.newImageObject({
+	        x: 0, y: 0,
+	        w: gameWidth, h: gameHeight,
+	        file: "img/menu_bg.png"
+        });
+        //Hero bg menu
+        rectMenu = game.newImageObject({
+	        w: 400, h: 300,
+	        x: gameWidth/2 - (200), y: gameHeight/2 - 150,
+	        file: "img/menu.png"
+        });
+        //Input name player
+        inputObj = game.newImageObject({
+	        x: gameWidth/2 - 150, y: gameHeight - 88,
+	        w: 300, h: 55,
+	        file: "img/input.png"
+        });
 
-	butMinus.x = gameWidth/2 + addX;
-	butPlus.x = gameWidth/2 + addX + 65;
+        //Help blank
+        blankObj = game.newImageObject({
+	        x: gameWidth/2 - 150, y: gameHeight - 88,
+	        w: 300, h: 55,
+	        file: "img/help_blank.png"
+        });
+    }
 
-	butMinus.y = gameHeight/2 + addY;
-	butPlus.y = gameHeight/2 + addY;
-
-	arrPlusMenu.push(butPlus);
-	arrMinusMenu.push(butMinus);
-
-	addY += 45;
-}
-
-//Input img
-var inputObj = game.newImageObject({
-	x: gameWidth/2 - 150, y: gameHeight - 88,
-	w: 300, h: 55,
-	file: "img/input.png"
-});
-
-//Icons for Menu
-for(let i = 0; i < 4; i+= 1) {
-	let iconObj = game.newImageObject({
-		x: gameWidth/2 - 10, y: gameHeight/2 - 80 + (46*i),
-		w: 50, h: 50,
-		file: "img/icon_" + i + ".png"
-	});
-	menuIconsObjs.push(iconObj);
-}
-
-function deletPath(path) {
-	//
-}
-
-function loadPath(path) {
-	//
+    //
 }

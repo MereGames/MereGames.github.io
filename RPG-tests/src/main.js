@@ -9,18 +9,29 @@
 //const test
 const TEST_GAME = true;
 
+var loadComlit = false;
+var drawScane = false;
+
 var startFPS = 60;
 
 var allObjsGame = [];
 
-var numPoints = 10;
+var numPoints = 0;
 
 var openInput = false;
 
 var viewFPS = true;
 var viewMsg = false;
+var viewHelpBl = false;
 
 var textMsg = "";
+
+var helpsTexts = [
+    "Физическая атака",
+    "Магическая атака",
+    "Защита",
+    "Здоровье"
+];
 
 
 // ================ 'game' loop =============
@@ -33,26 +44,23 @@ game.newLoop('game', function () {
 
 	//One func for dell arr *******
 	OOP.once("dellArr", function () {
-		menuIconsObjs = null;
-		gameLog("Clear array 'menuIconsObjs'", "CLR", "Done");
+		//log(menuIconsObjs);
 	});
 
-	//Funcs
-	drawWorld();
-	updateWorld();
+	if(drawScane == true) {
 
-	mouseEvents();
+	    //Funcs
+	    drawWorld();
+	    updateWorld();
 
-	//Fps game
-	if(viewFPS == true) {
-	    fpsGame = system.getFPS();
-	    brush.drawTextS({
-		    x: gameWidth, y: 0,
-		    size: 25,
-		    align: "right",
-		    color: "#fff",
-		    text: fpsGame + "FPS"
-	    });
+	    mouseEvents();
+
+	    //Fps game
+	    if(viewFPS == true) {
+	        drawFPS();
+        }
+    }else {
+    	drawLoading();
     }
 });
 
@@ -66,8 +74,10 @@ game.newLoop('menu', function () {
 	//Fill canvas
 	game.fill('#555');
 
+  if(drawScane == true) {
+
 	//Background menu
-	scanesGameArr[gameData.totalScaneId].draw();
+	scaneGame.draw();
 
 	rectMenu.draw();
 
@@ -121,7 +131,7 @@ game.newLoop('menu', function () {
 		align: "left",
 		color: "#fff",
 		font: "cursive",
-		text: (openInput == true) ? inputText + "|" : inputText + "",
+		text: (openInput == true) ? inputText + "|" : inputText + ""
 	});
 
 	//MSG for user
@@ -136,17 +146,16 @@ game.newLoop('menu', function () {
 	//Draw stop player
 	mainPlayer.playAnim("stop");
 
+	//View Help
+	viewHelp();
+
 	//Fps game - end layer
 	if(viewFPS == true) {
-	    fpsGame = system.getFPS();
-	    brush.drawTextS({
-		    x: gameWidth, y: 0,
-		    size: 25,
-		    align: "right",
-		    color: "#fff",
-		    text: fpsGame + "FPS"
-	    });
+	    drawFPS();
     }
+  }else {
+  	drawLoading();
+  }
 });
 
 //Texts menu
@@ -198,6 +207,9 @@ function checkEnter() {
 		gameData.nextScaneId = 0;
 		gameData.nextScaneName = "game";
 		gameData.newPlayer = false;
+		drawScane = false;
+
+		mouse.setCursorImage('img/cur_def.png');
 
 		game.startLoop("loadingScane");
 	}else {
@@ -242,10 +254,41 @@ game.newLoop('loadingScane', function () {
 
 	//Fill canvas
 	game.fill('#999');
-	deletPath(gameData.totalScaneName);
-	loadPath(gameData.nextScaneName);
-	//Bg load
-	scanesGameArr[gameData.nextScaneId].draw();
+
+	//Load and dell
+	if(loadComlit == false) {
+	    deletPath(gameData.totalScaneName, gameData.totalScaneId);
+	    loadPath(gameData.nextScaneName, gameData.nextScaneId);
+	    loadComlit = true;
+    }
+
+    drawLoading();
+
+	if(resources.isLoaded() && resources.getProgress() >= 99) {
+		game.startLoop(gameData.nextScaneName);
+		gameLog('Go to ' + gameData.nextScaneName, 'RPG', 'Done');
+
+		gameData.totalScaneId = gameData.nextScaneId;
+		gameData.totalScaneName = gameData.nextScaneName;
+		    // @ New pos player
+		if(gameData.nextScaneName == "menu") {
+		    mainPlayer.setPosition(point(gameWidth/2 - rectMenu.w/2 + 70, gameHeight/2 - mainPlayer.h/2 + 20));
+	    }else {
+	    	mainPlayer.setPosition(point(gameWidth/2 - mainPlayer.w, gameHeight/2 + mainPlayer.h));
+	    }
+
+	    //Timer
+		setTimeout(function () {
+	        loadComlit = false;
+
+	        drawScane = true;
+		}, 1000);
+	}
+});
+
+function drawLoading() {
+	//Bg loading img
+	scaneGame.draw();
 
 	if(TEST_GAME == true) {
 	    gameLog("Enter in loop 'loading': " + resources.getProgress() + "%", "LOD", "Done");
@@ -258,37 +301,14 @@ game.newLoop('loadingScane', function () {
 		align: "center",
 		color: "orange",
 		font: "cursive",
-		text: "Загрузка... " +  resources.getProgress() + "%",
+		text: "Загрузка... " +  (resources.getProgress() - 1) + "%",
 	});
-
-	if(resources.isLoaded() && resources.getProgress() >= 99) {
-		setTimeout(function () {
-			game.startLoop(gameData.nextScaneName);
-		    gameLog('Go to ' + gameData.nextScaneName, 'RPG', 'Done');
-
-		    gameData.totalScaneId = gameData.nextScaneId;
-		    gameData.totalScaneName = gameData.nextScaneName;
-		    // @ New pos player
-		    if(gameData.nextScaneName == "menu") {
-		        mainPlayer.setPosition(point(gameWidth/2 - rectMenu.w/2 + 70, gameHeight/2 - mainPlayer.h/2 + 20));
-	        }else {
-	    	    mainPlayer.setPosition(point(gameWidth/2 - mainPlayer.w, gameHeight/2 + mainPlayer.h));
-	        }
-		}, 1000);
-	}
 
 	//Fps game - and layer
 	if(viewFPS == true) {
-	    fpsGame = system.getFPS();
-	    brush.drawTextS({
-		    x: gameWidth, y: 0,
-		    size: 25,
-		    align: "right",
-		    color: "#fff",
-		    text: fpsGame + "FPS"
-	    });
+	    drawFPS();
     }
-});
+}
 
 
 
@@ -297,17 +317,26 @@ game.newLoop('loadingScane', function () {
 //DrawWorld game ------
 function drawWorld() {
 	//drawArrObjs
-	scanesGameArr[gameData.totalScaneId].draw();
+	scaneGame.draw();
+	for(let s = sizeMap; s--;) {
+		if(camera.getPosition().x >= scaneGame.w*s) {
+	        scaneGame.simpleDraw(point(scaneGame.w*s, 0));
+	    }
+    }
 
 	// ## OOP.drawArr(allObjsGame); ##
 	//Player stoping
-	mainPlayer.playAnim("stop");
+	if(key.isDown("LEFT") || key.isDown("RIGHT") || key.isDown("UP") || key.isDown("DOWN")) {
+		mainPlayer.playAnim("run");
+	}else {
+		mainPlayer.playAnim("stop");
+	}
 }
 
 
 //Update game -------
 function updateWorld() {
-	playerMove();
+	movePlayer();
 }
 
 //MovePlayer
@@ -321,18 +350,50 @@ function mouseEvents() {
 	//Left click
 	if(mouse.isPress("LEFT")) {
 		//Plus and musis
+		if(gameData.totalScaneName == "menu") {
+		    for(let i = 4; i--;) {
+			    if(mouse.isInObject(arrPlusMenu[i]) && numPoints > 0) {
+				    (i==0) ? mainPlayer.dameg += 1 : (i==1) ? mainPlayer.skilGmg += 1 : (i==2) ? mainPlayer.defent += 1 : mainPlayer.health += 1;
+
+				    numPoints -= 1;
+			    }else if(mouse.isInObject(arrMinusMenu[i])) {
+				    (i==0 && mainPlayer.dameg > 3) ? mainPlayer.dameg -= 1 : (i==1 && mainPlayer.skilGmg > 1) ? mainPlayer.skilGmg -= 1 : (i==2 && mainPlayer.defent > 0) ? mainPlayer.defent -= 1 : (i==3 && mainPlayer.health > 5) ? mainPlayer.health -= 1 : numPoints -= 1;
+
+				    numPoints += 1;
+			    }
+		    }
+	    }
+
+	    //
+	}
+	if(gameData.totalScaneName == "menu") {
 		for(let i = 4; i--;) {
-			if(mouse.isInObject(arrPlusMenu[i]) && numPoints > 0) {
-				(i==0) ? mainPlayer.dameg += 1 : (i==1) ? mainPlayer.skilGmg += 1 : (i==2) ? mainPlayer.defent += 1 : mainPlayer.health += 1;
-
-				numPoints -= 1;
-			}else if(mouse.isInObject(arrMinusMenu[i])) {
-				(i==0 && mainPlayer.dameg > 3) ? mainPlayer.dameg -= 1 : (i==1 && mainPlayer.skilGmg > 1) ? mainPlayer.skilGmg -= 1 : (i==2 && mainPlayer.defent > 0) ? mainPlayer.defent -= 1 : (i==3 && mainPlayer.health > 5) ? mainPlayer.health -= 1 : numPoints -= 1;
-
-				numPoints += 1;
+			if(mouse.isInObject(arrMinusMenu[i]) || mouse.isInObject(arrPlusMenu[i])) {
+				mouse.setCursorImage('img/cur_poi.png');
+				return;
+			}else {
+				mouse.setCursorImage('img/cur_def.png');
 			}
 		}
+		if(mouse.isInObject(inputObj)) {
+			mouse.setCursorImage('img/cur_poi.png');
+		    return;
+		}else {
+			mouse.setCursorImage('img/cur_def.png');
+		}
+
+		for(let i = 4;i--;) {
+			if(mouse.isInObject(menuIconsObjs[i])) {
+			    viewHelpBl = true;
+			    textHelp = helpsTexts[i];
+		        return;
+		    }else {
+				viewHelpBl = false;
+		    }
+		}
 	}
+
+	// *
 }
 
 
@@ -341,6 +402,23 @@ function mouseEvents() {
 //Analog console.log() or log()
 function gameLog(text, type, stat) {
 	console.log("*------------------------------*\n" + stat + ": [" + type + "] : " + text + "\n*------------------------------*");
+}
+
+//View Help blank
+function viewHelp() {
+	if(viewHelpBl == true) {
+	    blankObj.setPosition(point(mouse.getPosition().x + 20, mouse.getPosition().y + 16));
+	    blankObj.setSize(w2h(textHelp.length * 14, 40));
+	    blankObj.draw();
+
+	    brush.drawText({
+	    	x: blankObj.x + 5, y: blankObj.y + 5,
+	    	size: 20,
+	    	font: "cursive",
+	    	color: "#fff",
+	    	text: textHelp
+	    });
+    }
 }
 
 //Start Game!!!
