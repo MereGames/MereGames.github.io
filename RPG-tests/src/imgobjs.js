@@ -6,25 +6,26 @@
 *
 **/
 
+//Init
 var menuIconsObjs = [];
 const NUM_ICONS = 4;
+const NUM_SCANES = 1;
 
 var arrPlusMenu = [];
 var arrMinusMenu = [];
 
-//Bg - 1
-var testBg = game.newImageObject({
-	x: 0, y: 0,
-	w: gameWidth, h: gameHeight,
-	file: "img/scane_0.png"
-});
+var scanesGameArr = [];
 
-//Menu
-var rectMenu = game.newImageObject({
-	w: 400, h: 300,
-	x: gameWidth/2 - (200), y: gameHeight/2 - 150,
-	file: "img/menu.png"
-});
+//backgrounds game ====================
+for(let i = NUM_SCANES; i--;) {
+	var scane = game.newImageObject({
+	    x: 0, y: 0,
+	    w: gameWidth, h: gameHeight,
+	    file: "img/scane_0.png"
+    });
+
+    scanesGameArr.push(scane);
+}
 
 //Bg - menu
 var menuBg = game.newImageObject({
@@ -33,8 +34,16 @@ var menuBg = game.newImageObject({
 	file: "img/menu_bg.png"
 });
 
-var addY = -60; var addX = 47;
 
+
+//Menu
+var rectMenu = game.newImageObject({
+	w: 400, h: 300,
+	x: gameWidth/2 - (200), y: gameHeight/2 - 150,
+	file: "img/menu.png"
+});
+
+var addY = -60; var addX = 47;
 for(let i = 4; i--;) {
 
 	let butPlus = game.newImageObject({
@@ -75,4 +84,12 @@ for(let i = 0; i < 4; i+= 1) {
 		file: "img/icon_" + i + ".png"
 	});
 	menuIconsObjs.push(iconObj);
+}
+
+function deletPath(path) {
+	//
+}
+
+function loadPath(path) {
+	//
 }

@@ -10,6 +10,12 @@
 
 var gameData = {
 	leng: "ru",
-	position: "none"
+	position: "none",
+	totalScaneId: 0,
+	totalScaneName: "menu",
+	nextScaneId: 0,
+	nextScaneName: "menu",
+
+	newPlayer: true
 };
 

@@ -67,10 +67,7 @@ game.newLoop('menu', function () {
 	game.fill('#555');
 
 	//Background menu
-	if(menuBg.loaded) {
-		log("load img");
-	}
-	menuBg.draw();
+	scanesGameArr[gameData.totalScaneId].draw();
 
 	rectMenu.draw();
 
@@ -197,10 +194,12 @@ function drawBrushText() {
 //Check enter in game
 function checkEnter() {
 	if(numPoints == 0 && inputText.length >= 4 && inputText.length <= 10) {
-		game.startLoop("game");
-		gameLog("Go to game", "RPG", "Done");
-		//@ New der player
-		mainPlayer.setPosition(point(gameWidth/2 - mainPlayer.w, gameHeight/2 + mainPlayer.h));
+		//Load scane
+		gameData.nextScaneId = 0;
+		gameData.nextScaneName = "game";
+		gameData.newPlayer = false;
+
+		game.startLoop("loadingScane");
 	}else {
 		openInput = true;
 		viewMsg = true;
@@ -237,12 +236,17 @@ function viewMsgEr(text) {
 
 
 // -- Loop loading --
-game.newLoop('loading', function () {
+game.newLoop('loadingScane', function () {
 	//Clear All
 	// ## game.clear(); ##
 
 	//Fill canvas
 	game.fill('#999');
+	deletPath(gameData.totalScaneName);
+	loadPath(gameData.nextScaneName);
+	//Bg load
+	scanesGameArr[gameData.nextScaneId].draw();
+
 	if(TEST_GAME == true) {
 	    gameLog("Enter in loop 'loading': " + resources.getProgress() + "%", "LOD", "Done");
     }
@@ -250,18 +254,27 @@ game.newLoop('loading', function () {
 
 	brush.drawText({
 		x: gameWidth/2, y: gameHeight - 50,
-		size: 25,
+		size: 30,
 		align: "center",
-		color: "#fff",
+		color: "orange",
 		font: "cursive",
 		text: "Загрузка... " +  resources.getProgress() + "%",
 	});
 
-	if(resources.isLoaded() && resources.getProgress() >= 100) {
-		game.startLoop('menu');
-		gameLog('Go to menu', 'RPG', 'Done');
-		// @ New pos player
-		mainPlayer.setPosition(point(gameWidth/2 - rectMenu.w/2 + 70, gameHeight/2 - mainPlayer.h/2 + 20));
+	if(resources.isLoaded() && resources.getProgress() >= 99) {
+		setTimeout(function () {
+			game.startLoop(gameData.nextScaneName);
+		    gameLog('Go to ' + gameData.nextScaneName, 'RPG', 'Done');
+
+		    gameData.totalScaneId = gameData.nextScaneId;
+		    gameData.totalScaneName = gameData.nextScaneName;
+		    // @ New pos player
+		    if(gameData.nextScaneName == "menu") {
+		        mainPlayer.setPosition(point(gameWidth/2 - rectMenu.w/2 + 70, gameHeight/2 - mainPlayer.h/2 + 20));
+	        }else {
+	    	    mainPlayer.setPosition(point(gameWidth/2 - mainPlayer.w, gameHeight/2 + mainPlayer.h));
+	        }
+		}, 1000);
 	}
 
 	//Fps game - and layer
@@ -284,7 +297,7 @@ game.newLoop('loading', function () {
 //DrawWorld game ------
 function drawWorld() {
 	//drawArrObjs
-	testBg.draw();
+	scanesGameArr[gameData.totalScaneId].draw();
 
 	// ## OOP.drawArr(allObjsGame); ##
 	//Player stoping
@@ -294,6 +307,11 @@ function drawWorld() {
 
 //Update game -------
 function updateWorld() {
+	playerMove();
+}
+
+//MovePlayer
+function playerMove() {
 	//
 }
 
@@ -302,6 +320,7 @@ function updateWorld() {
 function mouseEvents() {
 	//Left click
 	if(mouse.isPress("LEFT")) {
+		//Plus and musis
 		for(let i = 4; i--;) {
 			if(mouse.isInObject(arrPlusMenu[i]) && numPoints > 0) {
 				(i==0) ? mainPlayer.dameg += 1 : (i==1) ? mainPlayer.skilGmg += 1 : (i==2) ? mainPlayer.defent += 1 : mainPlayer.health += 1;
@@ -329,7 +348,9 @@ system.addEvent("onload", "loadPage", function () {
 	gameLog("Page load!", "ELOAD", "Done");
     system.delEvent("onload", "loadPage");
 });
-game.startLoop('loading');
+gameData.nextScaneId = 0;
+gameData.nextScaneName = "menu";
+game.startLoop('loadingScane');
 game.setFPS(startFPS);
 
 //Version PointJS
