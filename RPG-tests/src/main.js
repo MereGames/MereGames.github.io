@@ -509,7 +509,7 @@ if(userAg.browser.family == "Chrome" || userAg.browser.family == "chrome") {
         gameLog("Start game! Browser is Chrome!", "DTC", "Start");
         userAg = null;
         deviceJs = null;
-    }else if(deviceJs.mobile() == true) {
+    }else if(deviceJs.android() == true) {
 	    game.startLoop("stop");
 	    userAg = null;
 	    deviceJs = null;
