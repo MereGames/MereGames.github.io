@@ -62,7 +62,7 @@ mainPlayer.setUserData({
 			brush.drawImage({
 				file: photoUser,
 				x: 5, y: 5,
-				w: 80, h: 80
+				w: 100, h: 100
 			});
 		}
 		//UI
