@@ -123,7 +123,7 @@ function loadPath(path, id) {
     		let ui = game.newImageObject({
     			x: 0, y: 0,
     			file: "img/ui_"+i+".png",
-    			w: 110, h: 140
+    			w: 110, h: 160
     		});
     		ui.setUserData({
     			_x: 0
