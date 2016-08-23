@@ -504,11 +504,7 @@ log("Engine: PointJS 0.5.8 whith my context");
 //Check Chrome Browser and Mobile version
 if(userAg.browser.family == "Chrome" || userAg.browser.family == "chrome") {
 	//Load
-<<<<<<< HEAD
 	if(!deviceJs.android() && !deviceJs.ios() && !deviceJs.ipad() && !deviceJs.iphone() && !deviceJs.mobile()) {
-=======
-	if(deviceJs.android() == false) {
->>>>>>> origin/master
         game.startLoop('loadingScane');
         drawScane = false;
         game.setFPS(startFPS);
