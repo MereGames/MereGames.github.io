@@ -8,7 +8,7 @@
 
 //const test
 const TEST_GAME = true;
-var startLocat = "menu";
+var startLocat = "game";
 var startId = 0;
 
 //detect and devises --- #

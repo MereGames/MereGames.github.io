@@ -13,9 +13,8 @@ var openOnHost = (window.location.hostname == "meregames.github.io") ? true : fa
 
 
 if(openOnHost == true) {
-	VK.api("users.get", {fields: "photo_100", name_case: "Nom"}, function (data) {
+	VK.api("users.get", {fields: "photo_100", name_case: "nom"}, function (data) {
 		photoUser = data.response[0].photo_100;
-		log(data);
 	});
 }
 

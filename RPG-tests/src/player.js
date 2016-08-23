@@ -74,8 +74,8 @@ mainPlayer.setUserData({
 
 		//Draw text name
 		brush.drawTextS({
-			x: 55, y: (this.size == 15) ? 80 : 90,
 			size: (this.name.length*10 > 90) ? 10 : 15,
+			x: 55, y: (this.size == 15) ? 96 : 109,
 			color: "lightgreen",
 			text: this.name,
 			font: "cursive",

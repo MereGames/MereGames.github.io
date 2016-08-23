@@ -125,9 +125,6 @@ function loadPath(path, id) {
     			file: "img/ui_"+i+".png",
     			w: 111, h: 162
     		});
-    		ui.setUserData({
-    			_x: 0
-    		});
 
     		arrUIPlayer.push(ui);
     	}
