@@ -499,21 +499,22 @@ if(gameData.newPlayer == true) {
 log("Engine: PointJS 0.5.8 whith my context");
 
 //Check Chrome Browser and Mobile version
-if(deviceJs.mobile()) {
-	game.startLoop("stop");
-	userAg = null;
-	deviceJs = null;
-	isMobile = true;
-}
 
 if(userAg.browser.family == "Chrome" || userAg.browser.family == "chrome") {
 	//Load
-    game.startLoop('loadingScane');
-    drawScane = false;
-    game.setFPS(startFPS);
-    gameLog("Start game! Browser is Chrome!", "DTC", "Start");
-    userAg = null;
-    deviceJs = null;
+	if(deviceJs.mobile() == false) {
+        game.startLoop('loadingScane');
+        drawScane = false;
+        game.setFPS(startFPS);
+        gameLog("Start game! Browser is Chrome!", "DTC", "Start");
+        userAg = null;
+        deviceJs = null;
+    }else if(deviceJs.mobile() == true) {
+	    game.startLoop("stop");
+	    userAg = null;
+	    deviceJs = null;
+	    isMobile = true;
+    }
 }else {
 	game.startLoop("stop");
 	gameLog("Stop game! Browser not Chrome!", "DTC", "Stop");
