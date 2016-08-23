@@ -23,9 +23,6 @@ var allObjsGame = [];
 
 var numPoints = 0;
 
-var openVKPage = (window.name.indexOf('fXD') == 0) ? true : false;
-log(openVKPage);
-
 var addXBg = 0;
 var addSize = 2;
 var viewDis = 3;
