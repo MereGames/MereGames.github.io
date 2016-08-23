@@ -20,6 +20,7 @@ var menuBg = {};
 var rectMenu = {};
 var inputObj = {};
 var blankObj = {};
+var userImg = {};
 
 //For Plus and Minus
 var addY = -60; var addX = 47;
@@ -43,6 +44,7 @@ function deletPath(path, id) {
 	    blankObj = {};
     }else if(path == "game") {
     	arrUIPlayer = [];
+    	userImg = {};
     }
 }
 
@@ -128,6 +130,15 @@ function loadPath(path, id) {
 
     		arrUIPlayer.push(ui);
     	}
+
+    	//User img
+    	if(photoUser != null) {
+    	    userImg = game.newImageObject({
+    		    file: photoUser,
+			    x: 5, y: 5,
+			    w: 100, h: 100
+    	    });
+        }
     }
 
     //

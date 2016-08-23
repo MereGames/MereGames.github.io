@@ -57,13 +57,10 @@ mainPlayer.setUserData({
 		//Draw imgs
 		//UPdat
 
-		//User Image
+		//User img
 		if(photoUser != null) {
-			brush.drawImage({
-				file: photoUser,
-				x: 5, y: 5,
-				w: 100, h: 100
-			});
+			userImg.setPositionS(point(5, 5));
+			userImg.draw();
 		}
 		//UI
 		for(let p = arrUIPlayer.length; p--;) {
