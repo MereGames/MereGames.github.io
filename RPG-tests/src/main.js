@@ -525,7 +525,3 @@ if(userAg.browser.family == "Chrome" || userAg.browser.family == "chrome") {
 	userAg = null;
 	deviceJs = null;
 }
-
-
-//Window indx
-window.location.indexOf = "";
