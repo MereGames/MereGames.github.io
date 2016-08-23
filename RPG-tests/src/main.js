@@ -23,8 +23,6 @@ var allObjsGame = [];
 
 var numPoints = 0;
 
-var openVKPage = (window.name.indexOf('fXD') == 0) ? true : false;
-
 var addXBg = 0;
 var addSize = 2;
 var viewDis = 3;
@@ -499,7 +497,6 @@ if(gameData.newPlayer == true) {
 
 //Version PointJS
 log("Engine: PointJS 0.5.8 whith my context");
-log(openVKPage);
 
 //Check Chrome Browser and Mobile version
 if(userAg.browser.family == "Chrome" || userAg.browser.family == "chrome") {
