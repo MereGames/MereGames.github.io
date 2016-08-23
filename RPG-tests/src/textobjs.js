@@ -9,3 +9,19 @@
 
 //Input text
 var inputText = "Имя игрока (макс. 10)";
+
+var textMsgObj = game.newTextObject({
+	x: gameWidth/2, y: 60,
+	size: 23,
+	align: "center",
+	font: "cursive",
+	color: "red",
+	text: ""
+});
+textMsgObj.setUserData({
+	drawTXT: function (text) {
+		this.text = text;
+		this.align = "center";
+		this.draw();
+	}
+});

@@ -9,6 +9,11 @@
 //const test
 const TEST_GAME = true;
 
+//detect and devises --- #
+var userAg = detect.parse(navigator.userAgent);
+var deviceJs = device.noConflict();
+isMobile = false;
+
 var loadComlit = false;
 var drawScane = false;
 
@@ -17,6 +22,14 @@ var startFPS = 60;
 var allObjsGame = [];
 
 var numPoints = 0;
+
+var addXBg = 0;
+var addSize = 2;
+var viewDis = 3;
+var maxDis = 4;
+var _maxDis = 4;
+
+var endTrans = true;
 
 var openInput = false;
 
@@ -47,11 +60,14 @@ game.newLoop('game', function () {
 		//log(menuIconsObjs);
 	});
 
+	//draw world
+	drawWorld();
+
 	if(drawScane == true) {
 
 	    //Funcs
-	    drawWorld();
 	    updateWorld();
+	    updatePlayer();
 
 	    mouseEvents();
 
@@ -74,15 +90,25 @@ game.newLoop('menu', function () {
 	//Fill canvas
 	game.fill('#555');
 
-  if(drawScane == true) {
-
 	//Background menu
 	scaneGame.draw();
 
 	rectMenu.draw();
 
+	//img for input(bg text)
+	inputObj.draw();
+
+  if(drawScane == true) {
+
 	//Mouse events ------
 	mouseEvents();
+
+	drawBrushText();
+
+	if(rectMenu.visible == false || mainPlayer.visible == false) {
+		rectMenu.visible = true;
+		mainPlayer.visible = true;
+	}
 
 	if(mouse.isPress("LEFT")) {
 	    if(mouse.isInObject(inputObj)) {
@@ -118,10 +144,6 @@ game.newLoop('menu', function () {
         checkEnter();
     }
 
-    //img for input(bg text)
-	inputObj.draw();
-
-	drawBrushText();
 	// ## drawCtxText(); (--in develop--) ##
 
 	//THIS INPUT TEXT
@@ -144,7 +166,7 @@ game.newLoop('menu', function () {
 	OOP.drawArr(arrMinusMenu);
 
 	//Draw stop player
-	mainPlayer.playAnim("stop");
+	mainPlayer.drawFrames(mainPlayer.strFram, mainPlayer.endFram);
 
 	//View Help
 	viewHelp();
@@ -208,6 +230,8 @@ function checkEnter() {
 		gameData.nextScaneName = "game";
 		gameData.newPlayer = false;
 		drawScane = false;
+		mainPlayer.name = inputText;
+		gameLog("Main Player name is: \"" + mainPlayer.name + "\"", "PLR", "Done");
 
 		mouse.setCursorImage('img/cur_def.png');
 
@@ -215,32 +239,32 @@ function checkEnter() {
 	}else {
 		openInput = true;
 		viewMsg = true;
+		textMsgObj.alpha = 1;
 		if(numPoints > 0) {
 			textMsg = "Не все очки навыков распределены!";
 		}else if(inputText.length < 4) {
 			textMsg = "Слишком короткое имя!";
 		}else if(inputText.length > 10) {
-			textMsg = "Слишком длиное имя!";
+			textMsg = "Введите имя игрока!";
 		}
 
 		//timer view msg
 		setTimeout(function () {
 			viewMsg = false;
-		}, 7000);
+			endTrans = false;
+		}, 4000);
 	}
 }
 
 //Massage error use
 function viewMsgEr(text) {
 	if(viewMsg == true) {
-		brush.drawText({
-			x: gameWidth/2, y: 60,
-			size: 23,
-			align: "center",
-			font: "cursive",
-			color: "red",
-			text: text
-		});
+		textMsgObj.drawTXT(text);
+	}else if(textMsgObj.alpha > 0 && endTrans == false) {
+		textMsgObj.drawTXT(text);
+		textMsgObj.transparent(-0.01);
+	}else if(textMsgObj.alpha <= 0){
+		endTrans = true;
 	}
 }
 
@@ -289,6 +313,10 @@ game.newLoop('loadingScane', function () {
 function drawLoading() {
 	//Bg loading img
 	scaneGame.draw();
+	mainPlayer.visible = false;
+	if(rectMenu.w != undefined || rectMenu.w != null) {
+		rectMenu.visible = false;
+	}
 
 	if(TEST_GAME == true) {
 	    gameLog("Enter in loop 'loading': " + resources.getProgress() + "%", "LOD", "Done");
@@ -316,34 +344,54 @@ function drawLoading() {
 
 //DrawWorld game ------
 function drawWorld() {
-	//drawArrObjs
-	scaneGame.draw();
+	//draw Map scane
+	sizeMap = addSize;
 	for(let s = sizeMap; s--;) {
-		if(camera.getPosition().x >= scaneGame.w*s) {
-	        scaneGame.simpleDraw(point(scaneGame.w*s, 0));
+	    scaneGame.x = addXBg;
+	    if(scaneGame.isInCamera()) {
+	        scaneGame.draw();
+	        if(_maxDis > maxDis) {
+	        	maxDis += 1;
+	        }
+	    }else {
+	    	if(addSize < maxSizeMap && addSize < viewDis) {
+	    	    addSize += 1;
+	        }else if(viewDis < maxDis){
+	        	viewDis += 1;
+	        	_maxDis += 1;
+	        }
 	    }
+	    addXBg += scaneGame.w;
     }
+    //set 0 - add
+    addXBg = 0;
 
 	// ## OOP.drawArr(allObjsGame); ##
-	//Player stoping
-	if(key.isDown("LEFT") || key.isDown("RIGHT") || key.isDown("UP") || key.isDown("DOWN")) {
-		mainPlayer.playAnim("run");
-	}else {
-		mainPlayer.playAnim("stop");
-	}
+	//Draw player -------------
+	mainPlayer.drawFrames(mainPlayer.strFram, mainPlayer.endFram);
 }
 
 
 //Update game -------
 function updateWorld() {
-	movePlayer();
-}
-
-//MovePlayer
-function playerMove() {
 	//
 }
 
+function updatePlayer() {
+	//Move plaer
+	movePlayer();
+
+	//Player stoping and run
+	if(key.isDown("LEFT") || key.isDown("RIGHT") || key.isDown("UP") || key.isDown("DOWN")) {
+		mainPlayer.playAnim("run");
+	}else {
+		mainPlayer.playAnim("stop");
+	}
+
+	if(mainPlayer.visible == false) {
+		mainPlayer.visible = true;
+	}
+}
 
 //Mouse events
 function mouseEvents() {
@@ -401,7 +449,7 @@ function mouseEvents() {
 
 //Analog console.log() or log()
 function gameLog(text, type, stat) {
-	console.log("*------------------------------*\n" + stat + ": [" + type + "] : " + text + "\n*------------------------------*");
+	console.log("*-------------------------------------------------------*\n# " + stat + ": [" + type + "] : " + text + " #\n*-------------------------------------------------------*");
 }
 
 //View Help blank
@@ -421,18 +469,57 @@ function viewHelp() {
     }
 }
 
+
+//Other params =================================
+
+//is browser not chrome to 'stop'
+game.newLoop("stop", function() {
+	brush.drawText({
+		x: gameWidth/2, y: gameHeight/2,
+		size: 23,
+		color: "red",
+		text: (!isMobile) ? "Извините, но игра работает только в Google Chrome!" : "Извините, но игра НЕ работает в мобильном браузере!",
+		align: "center"
+	});
+});
+
 //Start Game!!!
 system.addEvent("onload", "loadPage", function () {
 	gameLog("Page load!", "ELOAD", "Done");
     system.delEvent("onload", "loadPage");
 });
-gameData.nextScaneId = 0;
-gameData.nextScaneName = "menu";
-game.startLoop('loadingScane');
-game.setFPS(startFPS);
+
+//New player
+if(gameData.newPlayer == true) {
+    gameData.nextScaneId = 0;
+    gameData.nextScaneName = "menu";
+}
 
 //Version PointJS
-log("Engine: PointJS 0.5.7");
+log("Engine: PointJS 0.5.8 whith my context");
+
+//Check Chrome Browser and Mobile version
+if(deviceJs.mobile()) {
+	game.startLoop("stop");
+	userAg = null;
+	deviceJs = null;
+	isMobile = true;
+}
+
+if(userAg.browser.family == "Chrome" || userAg.browser.family == "chrome") {
+	//Load
+    game.startLoop('loadingScane');
+    drawScane = false;
+    game.setFPS(startFPS);
+    gameLog("Start game! Browser is Chrome!", "DTC", "Start");
+    userAg = null;
+    deviceJs = null;
+}else {
+	game.startLoop("stop");
+	gameLog("Stop game! Browser not Chrome!", "DTC", "Stop");
+	userAg = null;
+	deviceJs = null;
+}
 
 
 //Window

@@ -6,7 +6,8 @@
 *
 **/
 
-var sizeMap = 50000;
+var sizeMap = 2;
+var maxSizeMap = 4;
 
 //Player main
 var mainPlayer = game.newAnimationObject({
@@ -27,6 +28,7 @@ mainPlayer.setUserData({
 	dameg: 8,
 	skilGmg: 2,
 	speed: 6,
+	name: "player",
 
 	activ: false,
 
@@ -47,9 +49,6 @@ mainPlayer.setUserData({
 				this.endFram = 0;
 			}
 	    }
-
-	    //draw frames
-	    this.drawFrames(this.strFram, this.endFram);
 	}
 });
 
@@ -61,7 +60,7 @@ function movePlayer() {
 	if(key.isDown("LEFT") && mainPlayer.x > 0) {
 		mainPlayer.move(v2d(-mainPlayer.speed, 0));
 		mainPlayer.setFlip(1, 0);
-	}else if(key.isDown("RIGHT") && mainPlayer.x < sizeMap*scaneGame.w - mainPlayer.w) {
+	}else if(key.isDown("RIGHT") && mainPlayer.x < maxSizeMap*scaneGame.w - mainPlayer.w) {
 		mainPlayer.move(v2d(mainPlayer.speed, 0));
 		mainPlayer.setFlip(0, 0);
 	}
@@ -76,7 +75,7 @@ function movePlayer() {
 	camera.setPosition(point(mainPlayer.x - gameWidth/2 + mainPlayer.w, 0));
 	if(camera.getPosition().x <= 0) {
 		camera.setPosition(point(0, 0));
-	}else if(camera.getPosition().x + gameWidth >= sizeMap*scaneGame.w) {
-		camera.setPosition(point(sizeMap*scaneGame.w - gameWidth, 0));
+	}else if(camera.getPosition().x + gameWidth >= maxSizeMap*scaneGame.w) {
+		camera.setPosition(point(maxSizeMap*scaneGame.w - gameWidth, 0));
 	}
 }

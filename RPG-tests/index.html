@@ -7,13 +7,14 @@
 	<title>RPG</title>
 </head>
 <body style="background: #000;">
-    <?php
-         $fp = fopen('dat.txt', 'w+');
-         fwrite($fp, "dat adasdjall");
-         fclose($fp);
-     ?>
     <!-- pointJS engine -->
-    <script type="text/javascript" src="engine/point.js"></script>
+    <script type="text/javascript" src="engine/point.js" defer></script>
+
+    <!-- Detect.js -->
+    <script type="text/javascript" src="engine/detect.js" defer></script>
+
+    <!-- Devises.js -->
+    <script type="text/javascript" src="engine/devises.js" defer></script>
 
     <!-- Vk API -->
     <script src="https://vk.com/js/api/xd_connection.js?2"  type="text/javascript"></script>
