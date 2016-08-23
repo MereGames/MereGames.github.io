@@ -8,7 +8,7 @@
 
 
 //Input text
-var inputText = "Имя игрока (макс. 10)";
+var inputText = "Имя игрока (мин. 4)";
 
 var textMsgObj = game.newTextObject({
 	x: gameWidth/2, y: 60,

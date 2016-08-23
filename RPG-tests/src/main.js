@@ -8,6 +8,8 @@
 
 //const test
 const TEST_GAME = true;
+var startLocat = "menu";
+var startId = 0;
 
 //detect and devises --- #
 var userAg = detect.parse(navigator.userAgent);
@@ -20,9 +22,6 @@ var drawScane = false;
 var startFPS = 60;
 
 var allObjsGame = [];
-
-var openOnHost = (window.location.hostname == "meregames.github.io") ? true : false;
-log(openOnHost);
 
 var numPoints = 0;
 
@@ -384,6 +383,9 @@ function updatePlayer() {
 	//Move plaer
 	movePlayer();
 
+	//draw ui
+	mainPlayer.drawUI();
+
 	//Player stoping and run
 	if(key.isDown("LEFT") || key.isDown("RIGHT") || key.isDown("UP") || key.isDown("DOWN")) {
 		mainPlayer.playAnim("run");
@@ -492,10 +494,10 @@ system.addEvent("onload", "loadPage", function () {
     system.delEvent("onload", "loadPage");
 });
 
-//New player
+//New player -------------
 if(gameData.newPlayer == true) {
-    gameData.nextScaneId = 0;
-    gameData.nextScaneName = "menu";
+    gameData.nextScaneId = startId;
+    gameData.nextScaneName = startLocat;
 }
 
 //Version PointJS

@@ -7,7 +7,7 @@
 **/
 
 var sizeMap = 2;
-var maxSizeMap = 4;
+var maxSizeMap = 3;
 
 //Player main
 var mainPlayer = game.newAnimationObject({
@@ -49,12 +49,50 @@ mainPlayer.setUserData({
 				this.endFram = 0;
 			}
 	    }
+	},
+
+	//Draw ui
+	drawUI: function () {
+
+		//Draw imgs
+		//UPdat
+		for(let p = arrUIPlayer.length; p--;) {
+			arrUIPlayer[p].setPositionS(point(0, 0));
+			//Draw bg stat
+		    arrUIPlayer[p].draw();
+		}
+
+		//Draw text name
+		brush.drawTextS({
+			x: 55, y: (this.size == 15) ? 80 : 90,
+			size: (this.name.length*10 > 90) ? 10 : 15,
+			color: "lightgreen",
+			text: this.name,
+			font: "cursive",
+			align: "center"
+		});
+
+		if(photoUser != null) {
+			brush.drawImage({
+				file: photoUser,
+				x: 0, y: 0,
+				w: 100, h: 100
+			});
+		}
 	}
 });
 
 
 //Move player
 function movePlayer() {
+
+	//Camera
+	camera.setPosition(point(mainPlayer.x - gameWidth/2 + mainPlayer.w, 0));
+	if(camera.getPosition().x <= 0) {
+		camera.setPosition(point(0, 0));
+	}else if(camera.getPosition().x + gameWidth >= maxSizeMap*scaneGame.w) {
+		camera.setPosition(point(maxSizeMap*scaneGame.w - gameWidth, 0));
+	}
 
 	//Keyas move
 	if(key.isDown("LEFT") && mainPlayer.x > 0) {
@@ -69,13 +107,5 @@ function movePlayer() {
 		mainPlayer.move(v2d(0, -mainPlayer.speed));
 	}else if(key.isDown("DOWN") && mainPlayer.y < gameHeight - mainPlayer.h) {
 		mainPlayer.move(v2d(0, mainPlayer.speed));
-	}
-
-	//Camera
-	camera.setPosition(point(mainPlayer.x - gameWidth/2 + mainPlayer.w, 0));
-	if(camera.getPosition().x <= 0) {
-		camera.setPosition(point(0, 0));
-	}else if(camera.getPosition().x + gameWidth >= maxSizeMap*scaneGame.w) {
-		camera.setPosition(point(maxSizeMap*scaneGame.w - gameWidth, 0));
 	}
 }

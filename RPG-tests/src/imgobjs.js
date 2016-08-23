@@ -13,6 +13,7 @@ const NUM_SCANES = 1;
 
 var arrPlusMenu = [];
 var arrMinusMenu = [];
+var arrUIPlayer = [];
 
 var scaneGame = {};
 var menuBg = {};
@@ -40,6 +41,8 @@ function deletPath(path, id) {
 	    rectMenu = {};
 	    inputObj = {};
 	    blankObj = {};
+    }else if(path == "game") {
+    	arrUIPlayer = [];
     }
 }
 
@@ -114,6 +117,20 @@ function loadPath(path, id) {
 	        w: 300, h: 55,
 	        file: "img/help_blank.png"
         });
+    }else if(path == "game") {
+    	//Bg  main stat
+    	for(let i = 1; i--;) {
+    		let ui = game.newImageObject({
+    			x: 0, y: 0,
+    			file: "img/ui_"+i+".png",
+    			w: 110, h: 140
+    		});
+    		ui.setUserData({
+    			_x: 0
+    		});
+
+    		arrUIPlayer.push(ui);
+    	}
     }
 
     //
