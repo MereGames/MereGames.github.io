@@ -56,6 +56,16 @@ mainPlayer.setUserData({
 
 		//Draw imgs
 		//UPdat
+
+		//User Image
+		if(photoUser != null) {
+			brush.drawImage({
+				file: photoUser,
+				x: 5, y: 5,
+				w: 80, h: 80
+			});
+		}
+		//UI
 		for(let p = arrUIPlayer.length; p--;) {
 			arrUIPlayer[p].setPositionS(point(0, 0));
 			//Draw bg stat
@@ -71,14 +81,6 @@ mainPlayer.setUserData({
 			font: "cursive",
 			align: "center"
 		});
-
-		if(photoUser != null) {
-			brush.drawImage({
-				file: photoUser,
-				x: 0, y: 0,
-				w: 100, h: 100
-			});
-		}
 	}
 });
 
