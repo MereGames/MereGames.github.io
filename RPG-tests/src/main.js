@@ -502,7 +502,7 @@ log("Engine: PointJS 0.5.8 whith my context");
 
 if(userAg.browser.family == "Chrome" || userAg.browser.family == "chrome") {
 	//Load
-	if(deviceJs.mobile() == false) {
+	if(deviceJs.android() == false) {
         game.startLoop('loadingScane');
         drawScane = false;
         game.setFPS(startFPS);
