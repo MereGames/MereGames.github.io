@@ -21,8 +21,8 @@ var startFPS = 60;
 
 var allObjsGame = [];
 
-var openVKPage = (window.location.hostname == "vk.com") ? true : false;
-log(window.location.hostname);
+var openOnHost = (window.location.hostname == "meregames.github.io") ? true : false;
+log(openOnHost);
 
 var numPoints = 0;
 
