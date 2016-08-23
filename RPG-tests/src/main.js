@@ -23,6 +23,9 @@ var allObjsGame = [];
 
 var numPoints = 0;
 
+var openVKPage = (window.name.indexOf('fXD') == 0) ? true : false;
+log(openVKPage);
+
 var addXBg = 0;
 var addSize = 2;
 var viewDis = 3;
@@ -499,20 +502,20 @@ if(gameData.newPlayer == true) {
 log("Engine: PointJS 0.5.8 whith my context");
 
 //Check Chrome Browser and Mobile version
-
 if(userAg.browser.family == "Chrome" || userAg.browser.family == "chrome") {
 	//Load
-	if(deviceJs.mobile() == false) {
+	if(!deviceJs.android() && !deviceJs.ios() && !deviceJs.ipad() && !deviceJs.iphone() && !deviceJs.mobile()) {
         game.startLoop('loadingScane');
         drawScane = false;
         game.setFPS(startFPS);
         gameLog("Start game! Browser is Chrome!", "DTC", "Start");
         userAg = null;
         deviceJs = null;
-    }else if(deviceJs.android() == true) {
+    }else {
 	    game.startLoop("stop");
 	    userAg = null;
 	    deviceJs = null;
+	    //Mobile!
 	    isMobile = true;
     }
 }else {
@@ -523,5 +526,5 @@ if(userAg.browser.family == "Chrome" || userAg.browser.family == "chrome") {
 }
 
 
-//Window
+//Window indx
 window.location.indexOf = "";
