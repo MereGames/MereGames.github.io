@@ -21,6 +21,9 @@ var startFPS = 60;
 
 var allObjsGame = [];
 
+var openVKPage = (window.location.hostname == "vk.com") ? true : false;
+log(openVKPage);
+
 var numPoints = 0;
 
 var addXBg = 0;
