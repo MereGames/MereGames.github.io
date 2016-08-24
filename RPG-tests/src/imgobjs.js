@@ -11,6 +11,7 @@ var menuIconsObjs = [];
 const NUM_ICONS = 4;
 const NUM_SCANES = 1;
 const NUM_UI = 1;
+const NUM_BUT_MENU = 1;
 
 var arrPlusMenu = [];
 var arrMinusMenu = [];
@@ -34,7 +35,7 @@ var widSTR = 200;
 
 
 //Del path ---------
-function deletPath(path, id) {
+function deletPath(path, id, world) {
 	scaneGame  = null;
 
 	if(path == "menu") {
@@ -59,9 +60,10 @@ function loadPath(path, id, world) {
 	//Scane
     scaneGame = game.newImageObject({
 	    x: 0, y: 0,
-	    w: gameWidth, h: gameHeight,
+	    w: gameWidth*2, h: gameHeight,
 	    file: "maps/world_" + world + "/img/scane_" + id + ".png"
     });
+    //Data for map
     OOP.readJSON("maps/world_" + world + "/data/scane_" + id + ".json", function (obj) {
     	dataMap = obj;
     	maxSizeMap = dataMap.maxSize;
@@ -166,7 +168,9 @@ function loadPath(path, id, world) {
     		});
     		rectStat.setUserData({
     			addX: 105,
-    			addY: 20*i + 12
+    			addY: 20*i + 12,
+    			class: "lineBar",
+    			ID: i
     		});
 
     		arrUIPlayer.push(rectStat);
@@ -191,11 +195,43 @@ function loadPath(path, id, world) {
     	});
     	lvlBar.setUserData({
     		addX: 10,
-    		addY: gameHeight - 20
+    		addY: gameHeight - 20,
+    		class: "lineLVL"
     	});
     	//Save in arr
     	arrUIPlayer.push(lvlBarSt);
     	arrUIPlayer.push(lvlBar);
+
+    	//But menu
+    	let butMenu = game.newImageObject({
+    		x: 0, y: 0,
+    		file: "img/men_bt.png",
+    		w: 32, h: 32
+    	});
+    	butMenu.setUserData({
+    		addX: 39,
+    		addY: 130,
+    		class: "minMenu",
+    		ID: 0,
+    	});
+    	arrUIPlayer.push(butMenu);
+
+    	//Icons mini menu
+    	for(let i = NUM_BUT_MENU; i--;) {
+    		let butMenu = game.newImageObject({
+    		    x: 0, y: 0,
+    		    file: "img/bt_" + i + ".png",
+    		    w: 40, h: 40
+    	    });
+    	    butMenu.setUserData({
+    		    addX: 36,
+    		    addY: 130,
+    		    class: "minMenu",
+    		    ID: i+1,
+    	    });
+    	    butMenu.visible = false;
+    	    arrUIPlayer.push(butMenu);
+    	} 
 
 
     	//user img

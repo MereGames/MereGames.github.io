@@ -8,7 +8,7 @@
 
 //const test
 const TEST_GAME = true;
-var startLocat = "menu";
+var startLocat = "game";
 var startId = 0;
 var startWorld = 1;
 
@@ -23,11 +23,13 @@ var saveTime = 2000;
 var loadComlit = false;
 var drawScane = false;
 
+var openMenu = false;
+
 var startFPS = 60;
 
 var allObjsGame = [];
 
-var numPoints = 0;
+var numPoints = 10;
 
 var addXBg = 0;
 var addSize = 2;
@@ -110,11 +112,6 @@ game.newLoop('menu', function () {
 	mouseEvents();
 
 	drawBrushText();
-
-	if(rectMenu.visible == false || mainPlayer.visible == false) {
-		rectMenu.visible = true;
-		mainPlayer.visible = true;
-	}
 
 	if(mouse.isPress("LEFT")) {
 	    if(mouse.isInObject(inputObj)) {
@@ -238,6 +235,7 @@ function checkEnter() {
 		gameData.newPlayer = false;
 		drawScane = false;
 		mainPlayer.name = inputText;
+		mainPlayer.maxHealth = mainPlayer.health;
 		gameLog("Main Player name is: \"" + mainPlayer.name + "\"", "PLR", "Done");
 
 		mouse.setCursorImage('img/cur_def.png');
@@ -320,10 +318,6 @@ game.newLoop('loadingScane', function () {
 function drawLoading() {
 	//Bg loading img
 	scaneGame.draw();
-	mainPlayer.visible = false;
-	if(rectMenu.w != undefined || rectMenu.w != null) {
-		rectMenu.visible = false;
-	}
 
 	if(TEST_GAME == true) {
 	    gameLog("Enter in loop 'loading': " + resources.getProgress() + "%", "LOD", "Done");
@@ -374,8 +368,6 @@ function drawWorld() {
     addXBg = 0;
 
 	// ## OOP.drawArr(allObjsGame); ##
-	//Draw player -------------
-	mainPlayer.drawFrames(mainPlayer.strFram, mainPlayer.endFram);
 }
 
 
@@ -387,6 +379,15 @@ function updateWorld() {
 function updatePlayer() {
 	//Move plaer
 	movePlayer();
+
+	if(openMenu == true) {
+		miniMenu.openM();
+	}else {
+		miniMenu.closeM();
+	}
+
+	//Draw player -------------
+	mainPlayer.drawFrames(mainPlayer.strFram, mainPlayer.endFram);
 
 	//draw ui
 	mainPlayer.drawUI();
@@ -411,19 +412,52 @@ function mouseEvents() {
 		if(gameData.totalScaneName == "menu") {
 		    for(let i = 4; i--;) {
 			    if(mouse.isInObject(arrPlusMenu[i]) && numPoints > 0) {
-				    (i==0) ? mainPlayer.dameg += 1 : (i==1) ? mainPlayer.skilGmg += 1 : (i==2) ? mainPlayer.defent += 1 : mainPlayer.health += 1;
+				    (i==0) ? mainPlayer.dameg += 1 : (i==1) ? mainPlayer.skilDmg += 1 : (i==2) ? mainPlayer.defent += 1 : mainPlayer.health += 1;
 
 				    numPoints -= 1;
 			    }else if(mouse.isInObject(arrMinusMenu[i])) {
-				    (i==0 && mainPlayer.dameg > 3) ? mainPlayer.dameg -= 1 : (i==1 && mainPlayer.skilGmg > 1) ? mainPlayer.skilGmg -= 1 : (i==2 && mainPlayer.defent > 0) ? mainPlayer.defent -= 1 : (i==3 && mainPlayer.health > 5) ? mainPlayer.health -= 1 : numPoints -= 1;
+				    (i==0 && mainPlayer.dameg > 3) ? mainPlayer.dameg -= 1 : (i==1 && mainPlayer.skilDmg > 1) ? mainPlayer.skilDmg -= 1 : (i==2 && mainPlayer.defent > 0) ? mainPlayer.defent -= 1 : (i==3 && mainPlayer.health > 5) ? mainPlayer.health -= 1 : numPoints -= 1;
 
 				    numPoints += 1;
 			    }
 		    }
 	    }
-
-	    //
+	    //Click on UI
+	    for(let m = arrUIPlayer.length; m--;) {
+	    	if(mouse.isInObject(arrUIPlayer[m])) {
+	    		if(arrUIPlayer[m].class == "minMenu" && arrUIPlayer[m].ID == 0) {
+	    			if(arrUIPlayer[m].flip.y == 0) {
+	    			    arrUIPlayer[m].setFlip(0, 1);
+	    			    //min-menu
+	    			    openMenu = true;
+	    		    }else {
+	    		    	arrUIPlayer[m].setFlip(0, 0);
+	    		    	openMenu = false;
+	    		    }
+	    		}
+	    	}
+	    }
 	}
+
+	//Over UI
+	for(let m = arrUIPlayer.length; m--;) {
+		if(mouse.isInObject(arrUIPlayer[m])) {
+			if(arrUIPlayer[m].class == "minMenu" && arrUIPlayer[m].visible == true) {
+				mouse.setCursorImage('img/cur_poi.png');
+				if(arrUIPlayer[m].ID != 0) {
+				    arrUIPlayer[m].setSize(w2h(45, 45));
+			    }
+				return;
+			}
+		}else {
+			mouse.setCursorImage('img/cur_def.png');
+			if(arrUIPlayer[m].class == "minMenu" && arrUIPlayer[m].ID != 0) {
+			    arrUIPlayer[m].setSize(w2h(40, 40));
+		    }
+		}
+	}
+
+	//Cursor
 	if(gameData.totalScaneName == "menu") {
 		for(let i = 4; i--;) {
 			if(mouse.isInObject(arrMinusMenu[i]) || mouse.isInObject(arrPlusMenu[i])) {

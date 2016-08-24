@@ -27,7 +27,7 @@ mainPlayer.setUserData({
 	maxHealth: 10,
 	engMana: 20,
 	maxEngMana: 30,
-	superMana: 50,
+	superMana: 20,
 	maxSuperMana: 100,
 
 	level: 1,
@@ -81,10 +81,10 @@ mainPlayer.setUserData({
 			arrUIPlayer[p].setPositionS(point(0 + arrUIPlayer[p].addX, 0 + arrUIPlayer[p].addY));
 
 			//lines width
-			if(arrUIPlayer[p].id == 9 || arrUIPlayer[p].id == 5 || arrUIPlayer[p].id == 7) {
-				let id = arrUIPlayer[p].id;
-				arrUIPlayer[p].w = (id == 9) ? (this.health/this.maxHealth)*280 : (id == 7) ? (this.engMana/this.maxEngMana)*240 : (this.superMana/this.maxSuperMana)*200;
-			}else if(arrUIPlayer[p].id == 11) {
+			if(arrUIPlayer[p].class == "lineBar") {
+				let id = arrUIPlayer[p].ID;
+				arrUIPlayer[p].w = (id == 0) ? (this.health/this.maxHealth)*280 : (id == 1) ? (this.engMana/this.maxEngMana)*240 : (this.superMana/this.maxSuperMana)*200;
+			}else if(arrUIPlayer[p].class == "lineLVL") {
 				arrUIPlayer[p].w = (this.opit/this.needOpit)*(gameWidth - 20);
 			}
 
@@ -129,7 +129,7 @@ function textStat(id) {
 		    font: "cursive",
 		    align: "center"
 	    });
-	    widSTR += 40;
+	    widSTR += 20;
 }
 
 
@@ -137,7 +137,7 @@ function textStat(id) {
 function movePlayer() {
 
 	//Camera
-	camera.setPosition(point(mainPlayer.x - gameWidth/2 + mainPlayer.w, 0));
+	camera.setPosition(point(mainPlayer.x - gameWidth/2 + 40, 0));
 	if(camera.getPosition().x <= 0) {
 		camera.setPosition(point(0, 0));
 	}else if(camera.getPosition().x + gameWidth >= maxSizeMap*scaneGame.w) {
@@ -153,7 +153,7 @@ function movePlayer() {
 		mainPlayer.setFlip(0, 0);
 	}
 
-	if(key.isDown("UP") && mainPlayer.y > gameHeight/2 - 50) {
+	if(key.isDown("UP") && mainPlayer.y > gameHeight/2 - 70) {
 		mainPlayer.move(v2d(0, -mainPlayer.speed));
 	}else if(key.isDown("DOWN") && mainPlayer.y < gameHeight - mainPlayer.h - 50) {
 		mainPlayer.move(v2d(0, mainPlayer.speed));
