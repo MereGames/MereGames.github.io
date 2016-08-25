@@ -8,7 +8,7 @@
 
 //const test
 const TEST_GAME = true;
-var startLocat = "menu";
+var startLocat = "game";
 var startId = 0;
 var startWorld = 1;
 
@@ -78,6 +78,9 @@ game.newLoop('game', function () {
 	    //Funcs
 	    updateWorld();
 	    updatePlayer();
+	    updateEnemys();
+
+	    moveEnemy();
 
 	    mouseEvents();
 
@@ -233,10 +236,11 @@ function drawBrushText() {
 //Check enter in game
 function checkEnter() {
 	if(numPoints == 0 && inputText.length >= 4 && inputText.length <= 10) {
-		//Load scane
+		//Load scane game
 		gameData.nextScaneId = 0;
 		gameData.nextScaneName = "game";
 		gameData.nextWorld = 1;
+		gameData.numMusik = 3;
 		gameData.newPlayer = false;
 		drawScane = false;
 		mainPlayer.name = inputText;
@@ -291,6 +295,13 @@ game.newLoop('loadingScane', function () {
 
 	//Load and dell
 	if(loadComlit == false) {
+		//Data for map
+        OOP.readJSON("maps/world_" + gameData.nextWorld + "/data/scane_" + gameData.nextScaneId + ".json", function (obj) {
+    	    dataMap = obj;
+    	    maxSizeMap = dataMap.maxSize;
+            gameData.numEnemyTypes = dataMap.numEnemyTypes;
+            gameData.numEnemy = dataMap.numEnemy;
+        });
 		//Stop musik
 		for(let i = arrAudioBg.length; i--;) {
 			if(arrAudioBg[i].playing == true) {
@@ -307,6 +318,9 @@ game.newLoop('loadingScane', function () {
 
     //Is loaded
 	if(resources.isLoaded() && resources.getProgress() >= 99) {
+		deletPath(gameData.totalScaneName, gameData.totalScaneId, gameData.totalWorld);
+	    loadPath(gameData.nextScaneName, gameData.nextScaneId, gameData.nextWorld);
+
 		game.startLoop(gameData.nextScaneName);
 		gameLog('Go to ' + gameData.nextScaneName, 'RPG', 'Done');
 
@@ -322,7 +336,16 @@ game.newLoop('loadingScane', function () {
 	    //Play musik
 	    if(arrAudioBg != [] && arrAudioBg != null && arrAudioBg[0] != undefined) {
 	    	if(gameData.playMusik == true) {
-	            arrAudioBg[0].play();
+	            arrAudioBg[1].play();
+	            for(let i = arrAudioBg.length; i--;) {
+	            	if(i != 0) {
+	            		let iM = i-1;
+	            	    arrAudioBg[i].setNextPlay(arrAudioBg[iM]);
+	                }else {
+	                	let lgs = arrAudioBg.length - 1;
+	                	arrAudioBg[0].setNextPlay(arrAudioBg[lgs]);
+	                }
+	            }
 	        }
 	        stoping = false;
 	    }
@@ -394,7 +417,18 @@ function drawWorld() {
 
 //Update game -------
 function updateWorld() {
-	//
+	//draw on layers
+	for(let i = arrEnemy.length; i--;) {
+		if(mainPlayer.y > arrEnemy[i].y) {
+			drawEnemys();
+	        mainPlayer.drawFrames(mainPlayer.strFram, mainPlayer.endFram);
+	        return;
+		}else {
+			mainPlayer.drawFrames(mainPlayer.strFram, mainPlayer.endFram);
+			drawEnemys();
+			return;
+		}
+	}
 }
 
 function updatePlayer() {
@@ -406,9 +440,6 @@ function updatePlayer() {
 	}else {
 		miniMenu.closeM();
 	}
-
-	//Draw player -------------
-	mainPlayer.drawFrames(mainPlayer.strFram, mainPlayer.endFram);
 
 	//draw ui
 	mainPlayer.drawUI();
@@ -572,6 +603,7 @@ if(gameData.newPlayer == true) {
     gameData.nextScaneId = startId;
     gameData.nextScaneName = startLocat;
     gameData.nextWorld = startWorld;
+    gameData.numMusik = 3;
 }
 
 //Version PointJS

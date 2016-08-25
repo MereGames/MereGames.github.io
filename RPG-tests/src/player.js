@@ -144,7 +144,7 @@ function movePlayer() {
 		camera.setPosition(point(maxSizeMap*scaneGame.w - gameWidth, 0));
 	}
 
-	//Keyas move
+    //Keyas move
 	if(key.isDown("LEFT") && mainPlayer.x > 0) {
 		mainPlayer.move(v2d(-mainPlayer.speed, 0));
 		mainPlayer.setFlip(1, 0);

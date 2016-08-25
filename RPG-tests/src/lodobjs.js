@@ -20,6 +20,8 @@ var arrPlusMenu = [];
 var arrMinusMenu = [];
 var arrUIPlayer = [];
 var arrAudioBg = [];
+var arrEnemyTypes = [];
+var arrEnemy = [];
 
 var scaneGame = {};
 var menuBg = {};
@@ -42,6 +44,8 @@ var widSTR = 200;
 function deletPath(path, id, world) {
 	scaneGame  = null;
     arrAudioBg = [];
+    arrEnemyTypes = [];
+    arrEnemy = [];
     userImg = {};
     dataMap = {};
 
@@ -57,6 +61,7 @@ function deletPath(path, id, world) {
 	    dataMap = {};
     }else if(path == "game") {
     	arrUIPlayer = [];
+        arrAudioBg = [];
     }
 }
 
@@ -68,17 +73,12 @@ function loadPath(path, id, world) {
 	    w: gameWidth*2, h: gameHeight,
 	    file: "maps/world_" + world + "/img/scane_" + id + ".png"
     });
-    //Data for map
-    OOP.readJSON("maps/world_" + world + "/data/scane_" + id + ".json", function (obj) {
-    	dataMap = obj;
-    	maxSizeMap = dataMap.maxSize;
-    });
 
     //Menu load
     if(path == "menu") {
         //Musik menu
         for(let i = 3; i--;) {
-            let aud = audio.newAudio("audio/menu/aud_" + i + ".mp3", volumAudio);
+            let aud = audio.newAudio("audio/world_" + world + "/aud_" + i + ".mp3", volumAudio);
             arrAudioBg.push(aud);
         }
 
@@ -144,11 +144,11 @@ function loadPath(path, id, world) {
         });
     }else if(path == "game") {
 
-        //Musik game
-        for(let i = gameData.numMusik; i--;) {
-            let aud = audio.newAudio("audio/menu/aud_" + i + ".mp3", volumAudio);
+        //Musik game ------------
+        /*for(let i = gameData.numMusik; i--;) {
+            let aud = audio.newAudio("audio/world_" + world + "/aud_" + i + ".mp3", volumAudio);
             arrAudioBg.push(aud);
-        }
+        }*/
 
     	//Bg  main stat
     	for(let i = NUM_UI; i--;) {
@@ -250,6 +250,44 @@ function loadPath(path, id, world) {
     	    butMenu.visible = false;
     	    arrUIPlayer.push(butMenu);
     	} 
+
+        //Load enemy
+        for(let e = gameData.numEnemyTypes; e--;) {
+            let enm = game.newAnimationObject({
+                x: 300, y: 300,
+                w: 85, h: 130,
+                animation: tiles.newImage("maps/world_" + world + "/img/enemy/enemy_" + e + ".png").getAnimation(0, 0, 150, 200, 1),
+                delay: 1,
+            });
+            enm.setUserData({
+                radius: 400,
+                health: 100,
+                maxHealth: 100,
+                speed: 2,
+                activ: false
+            });
+
+            arrEnemyTypes.push(enm);
+        }
+
+        for(let i = 0; i < gameData.numEnemy; i++) {
+                let enm = game.newAnimationObject({
+                x: 90*i, y: 300,
+                w: 85, h: 130,
+                animation: tiles.newImage("maps/world_" + world + "/img/enemy/enemy_" + (arrEnemyTypes.length-1)*1 + ".png").getAnimation(0, 0, 150, 200, 1),
+                delay: 1,
+            });
+            enm.setUserData({
+                radius: 400,
+                health: 100,
+                maxHealth: 100,
+                speed: 2,
+                activ: false,
+                call: false,
+                view: false
+            });
+            arrEnemy.push(enm);
+            }
 
 
     	//user img

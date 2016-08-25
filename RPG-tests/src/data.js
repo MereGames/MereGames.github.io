@@ -17,6 +17,8 @@ var gameData = {
 	nextScaneId: 0,
 	nextScaneName: "menu",
 	nextWorld: 1,
+	numEnemyTypes: 1,
+	numEnemy: 1, 
 
 	numMusik: 3,
 	playMusik: true,
