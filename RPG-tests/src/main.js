@@ -8,22 +8,28 @@
 
 //const test
 const TEST_GAME = true;
+var startLocat = "menu";
+var startId = 0;
+var startWorld = 1;
 
 //detect and devises --- #
 var userAg = detect.parse(navigator.userAgent);
 var deviceJs = device.noConflict();
 isMobile = false;
 
+//For saves.js
+var saveTime = 2000;
+
 var loadComlit = false;
 var drawScane = false;
+
+var openMenu = false;
 
 var startFPS = 60;
 
 var allObjsGame = [];
 
-var numPoints = 0;
-
-var openVKPage = (window.name.indexOf('fXD') == 0) ? true : false;
+var numPoints = 10;
 
 var addXBg = 0;
 var addSize = 2;
@@ -65,6 +71,8 @@ game.newLoop('game', function () {
 	//draw world
 	drawWorld();
 
+	musikStat();
+
 	if(drawScane == true) {
 
 	    //Funcs
@@ -105,12 +113,10 @@ game.newLoop('menu', function () {
 	//Mouse events ------
 	mouseEvents();
 
-	drawBrushText();
+	//Musik
+	musikStat();
 
-	if(rectMenu.visible == false || mainPlayer.visible == false) {
-		rectMenu.visible = true;
-		mainPlayer.visible = true;
-	}
+	drawBrushText();
 
 	if(mouse.isPress("LEFT")) {
 	    if(mouse.isInObject(inputObj)) {
@@ -219,7 +225,7 @@ function drawBrushText() {
 		    align: "center",
 		    color: "red",
 		    font: "cursive",
-		    text: (i==0) ? mainPlayer.dameg : (i==1) ? mainPlayer.skilGmg : (i==2) ? mainPlayer.defent : mainPlayer.health,
+		    text: (i==0) ? mainPlayer.dameg : (i==1) ? mainPlayer.skilDmg : (i==2) ? mainPlayer.defent : mainPlayer.health,
 	    });
 	}
 }
@@ -230,9 +236,11 @@ function checkEnter() {
 		//Load scane
 		gameData.nextScaneId = 0;
 		gameData.nextScaneName = "game";
+		gameData.nextWorld = 1;
 		gameData.newPlayer = false;
 		drawScane = false;
 		mainPlayer.name = inputText;
+		mainPlayer.maxHealth = mainPlayer.health;
 		gameLog("Main Player name is: \"" + mainPlayer.name + "\"", "PLR", "Done");
 
 		mouse.setCursorImage('img/cur_def.png');
@@ -283,13 +291,21 @@ game.newLoop('loadingScane', function () {
 
 	//Load and dell
 	if(loadComlit == false) {
-	    deletPath(gameData.totalScaneName, gameData.totalScaneId);
-	    loadPath(gameData.nextScaneName, gameData.nextScaneId);
+		//Stop musik
+		for(let i = arrAudioBg.length; i--;) {
+			if(arrAudioBg[i].playing == true) {
+				arrAudioBg[i].stop();
+			}
+		}
+
+	    deletPath(gameData.totalScaneName, gameData.totalScaneId, gameData.totalWorld);
+	    loadPath(gameData.nextScaneName, gameData.nextScaneId, gameData.nextWorld);
 	    loadComlit = true;
     }
 
     drawLoading();
 
+    //Is loaded
 	if(resources.isLoaded() && resources.getProgress() >= 99) {
 		game.startLoop(gameData.nextScaneName);
 		gameLog('Go to ' + gameData.nextScaneName, 'RPG', 'Done');
@@ -300,7 +316,15 @@ game.newLoop('loadingScane', function () {
 		if(gameData.nextScaneName == "menu") {
 		    mainPlayer.setPosition(point(gameWidth/2 - rectMenu.w/2 + 70, gameHeight/2 - mainPlayer.h/2 + 20));
 	    }else {
-	    	mainPlayer.setPosition(point(gameWidth/2 - mainPlayer.w, gameHeight/2 + mainPlayer.h));
+	    	mainPlayer.setPosition(point(gameWidth/2 - mainPlayer.w, gameHeight/2 + mainPlayer.h - 90));
+	    }
+
+	    //Play musik
+	    if(arrAudioBg != [] && arrAudioBg != null && arrAudioBg[0] != undefined) {
+	    	if(gameData.playMusik == true) {
+	            arrAudioBg[0].play();
+	        }
+	        stoping = false;
 	    }
 
 	    //Timer
@@ -315,10 +339,6 @@ game.newLoop('loadingScane', function () {
 function drawLoading() {
 	//Bg loading img
 	scaneGame.draw();
-	mainPlayer.visible = false;
-	if(rectMenu.w != undefined || rectMenu.w != null) {
-		rectMenu.visible = false;
-	}
 
 	if(TEST_GAME == true) {
 	    gameLog("Enter in loop 'loading': " + resources.getProgress() + "%", "LOD", "Done");
@@ -331,7 +351,7 @@ function drawLoading() {
 		align: "center",
 		color: "orange",
 		font: "cursive",
-		text: "Загрузка... " +  (resources.getProgress() - 1) + "%",
+		text: "Загрузка... " +  resources.getProgress() + "%",
 	});
 
 	//Fps game - and layer
@@ -369,8 +389,6 @@ function drawWorld() {
     addXBg = 0;
 
 	// ## OOP.drawArr(allObjsGame); ##
-	//Draw player -------------
-	mainPlayer.drawFrames(mainPlayer.strFram, mainPlayer.endFram);
 }
 
 
@@ -382,6 +400,18 @@ function updateWorld() {
 function updatePlayer() {
 	//Move plaer
 	movePlayer();
+
+	if(openMenu == true) {
+		miniMenu.openM();
+	}else {
+		miniMenu.closeM();
+	}
+
+	//Draw player -------------
+	mainPlayer.drawFrames(mainPlayer.strFram, mainPlayer.endFram);
+
+	//draw ui
+	mainPlayer.drawUI();
 
 	//Player stoping and run
 	if(key.isDown("LEFT") || key.isDown("RIGHT") || key.isDown("UP") || key.isDown("DOWN")) {
@@ -403,19 +433,52 @@ function mouseEvents() {
 		if(gameData.totalScaneName == "menu") {
 		    for(let i = 4; i--;) {
 			    if(mouse.isInObject(arrPlusMenu[i]) && numPoints > 0) {
-				    (i==0) ? mainPlayer.dameg += 1 : (i==1) ? mainPlayer.skilGmg += 1 : (i==2) ? mainPlayer.defent += 1 : mainPlayer.health += 1;
+				    (i==0) ? mainPlayer.dameg += 1 : (i==1) ? mainPlayer.skilDmg += 1 : (i==2) ? mainPlayer.defent += 1 : mainPlayer.health += 1;
 
 				    numPoints -= 1;
 			    }else if(mouse.isInObject(arrMinusMenu[i])) {
-				    (i==0 && mainPlayer.dameg > 3) ? mainPlayer.dameg -= 1 : (i==1 && mainPlayer.skilGmg > 1) ? mainPlayer.skilGmg -= 1 : (i==2 && mainPlayer.defent > 0) ? mainPlayer.defent -= 1 : (i==3 && mainPlayer.health > 5) ? mainPlayer.health -= 1 : numPoints -= 1;
+				    (i==0 && mainPlayer.dameg > 3) ? mainPlayer.dameg -= 1 : (i==1 && mainPlayer.skilDmg > 1) ? mainPlayer.skilDmg -= 1 : (i==2 && mainPlayer.defent > 0) ? mainPlayer.defent -= 1 : (i==3 && mainPlayer.health > 5) ? mainPlayer.health -= 1 : numPoints -= 1;
 
 				    numPoints += 1;
 			    }
 		    }
 	    }
-
-	    //
+	    //Click on UI
+	    for(let m = arrUIPlayer.length; m--;) {
+	    	if(mouse.isInObject(arrUIPlayer[m])) {
+	    		if(arrUIPlayer[m].class == "minMenu" && arrUIPlayer[m].ID == 0) {
+	    			if(arrUIPlayer[m].flip.y == 0) {
+	    			    arrUIPlayer[m].setFlip(0, 1);
+	    			    //min-menu
+	    			    openMenu = true;
+	    		    }else {
+	    		    	arrUIPlayer[m].setFlip(0, 0);
+	    		    	openMenu = false;
+	    		    }
+	    		}
+	    	}
+	    }
 	}
+
+	//Over UI
+	for(let m = arrUIPlayer.length; m--;) {
+		if(mouse.isInObject(arrUIPlayer[m])) {
+			if(arrUIPlayer[m].class == "minMenu" && arrUIPlayer[m].visible == true) {
+				mouse.setCursorImage('img/cur_poi.png');
+				if(arrUIPlayer[m].ID != 0) {
+				    arrUIPlayer[m].setSize(w2h(45, 45));
+			    }
+				return;
+			}
+		}else {
+			mouse.setCursorImage('img/cur_def.png');
+			if(arrUIPlayer[m].class == "minMenu" && arrUIPlayer[m].ID != 0) {
+			    arrUIPlayer[m].setSize(w2h(40, 40));
+		    }
+		}
+	}
+
+	//Cursor
 	if(gameData.totalScaneName == "menu") {
 		for(let i = 4; i--;) {
 			if(mouse.isInObject(arrMinusMenu[i]) || mouse.isInObject(arrPlusMenu[i])) {
@@ -444,6 +507,19 @@ function mouseEvents() {
 	}
 
 	// *
+}
+
+//Musik ------
+function musikStat() {
+	if(gameData.playMusik == false && stoping == false) {
+		//Stop musik
+		for(let i = arrAudioBg.length; i--;) {
+			if(arrAudioBg[i].playing == true) {
+				arrAudioBg[i].stop();
+				stoping = true;
+			}
+		}
+	}
 }
 
 
@@ -491,15 +567,15 @@ system.addEvent("onload", "loadPage", function () {
     system.delEvent("onload", "loadPage");
 });
 
-//New player
+//New player -------------
 if(gameData.newPlayer == true) {
-    gameData.nextScaneId = 0;
-    gameData.nextScaneName = "menu";
+    gameData.nextScaneId = startId;
+    gameData.nextScaneName = startLocat;
+    gameData.nextWorld = startWorld;
 }
 
 //Version PointJS
 log("Engine: PointJS 0.5.8 whith my context");
-log(openVKPage);
 
 //Check Chrome Browser and Mobile version
 if(userAg.browser.family == "Chrome" || userAg.browser.family == "chrome") {

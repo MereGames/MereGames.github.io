@@ -13,8 +13,13 @@ var gameData = {
 	position: "none",
 	totalScaneId: 0,
 	totalScaneName: "menu",
+	totlaWorld: 1,
 	nextScaneId: 0,
 	nextScaneName: "menu",
+	nextWorld: 1,
+
+	numMusik: 3,
+	playMusik: false,
 
 	newPlayer: true
 };

@@ -26,6 +26,7 @@ var system = pjs.system;
 var resources = pjs.resources;
 var tiles = pjs.tiles;
 var dialogs = pjs.dialogs;
+var audio = pjs.wAudio;
 
 //Context canvas
 var ctx = system.getContext();
