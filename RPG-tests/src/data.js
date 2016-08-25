@@ -19,7 +19,7 @@ var gameData = {
 	nextWorld: 1,
 
 	numMusik: 3,
-	playMusik: false,
+	playMusik: true,
 
 	newPlayer: true
 };
