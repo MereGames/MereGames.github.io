@@ -8,7 +8,7 @@
 
 //const test
 const TEST_GAME = true;
-var startLocat = "game";
+var startLocat = "menu";
 var startId = 0;
 var startWorld = 1;
 
