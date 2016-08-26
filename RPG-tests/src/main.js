@@ -307,7 +307,7 @@ game.newLoop('loadingScane', function () {
         });
         oepnRead = true;
     }else {
-        dataMap.maxSize = 4;q
+        dataMap.maxSize = 4;
 }
 
     if(scaneGame.draw == undefined) {
