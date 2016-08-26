@@ -23,16 +23,20 @@ var mainPlayer = game.newAnimationObject({
 //My data for obj 'player'
 mainPlayer.setUserData({
 	//Baze
-	health: 10,
-	maxHealth: 10,
+	health: 27,
+	maxHealth: 27,
 	engMana: 20,
 	maxEngMana: 30,
 	superMana: 20,
 	maxSuperMana: 100,
 
 	level: 1,
-	opit: 43,
+	opit: 0,
 	needOpit: 150,
+
+	hit: 1,
+
+	boom1: audio.newAudio("audio/sound/soun_0.mp3", 1),
 
 	//Stat
 	defent: 4,
@@ -40,6 +44,9 @@ mainPlayer.setUserData({
 	skilDmg: 2,
 	speed: 6,
 	name: "player",
+
+	reload: 0,
+	_reload: 60,
 
 	activ: false,
 
@@ -113,14 +120,25 @@ mainPlayer.setUserData({
 		});
 
 		//Text sts
-		for(let i = 4; i--;) {
+		for(let i = 7; i--;) {
 			textStat(i);
 		}
+	},
+
+	atacing: function () {
+		for(let i = arrEnemy.length; i--;) {
+			if(this.x <= arrEnemy[i].x + arrEnemy[i].w && this.x + this.w*2.5 >= arrEnemy[i].x + arrEnemy[i].w) {
+				arrEnemy[i].health -= this.dameg;
+			}
+		}
+
+		this.reload = 0;
 	}
 });
 
 //Draw text
 function textStat(id) {
+	if(id<4) {
 	    brush.drawTextS({
 		    size: (id!=3) ? 13 : 8,
 		    x: (id!=3) ? widSTR : gameWidth/2, y: (id!=3) ? 20*id+10 : gameHeight - 20,
@@ -130,6 +148,16 @@ function textStat(id) {
 		    align: "center"
 	    });
 	    widSTR += 20;
+	}else {
+	    brush.drawTextS({
+		    size: 13,
+		    x: 110, y: (id-3)*20 - 11,
+		    color: (id!=3) ? "#fff" : "#000",
+		    text: (id==4) ? "Здоровье" : (id==5) ? "Мана" : "Ярость",
+		    font: "cursive",
+		    align: "left"
+	    });
+	}
 }
 
 
@@ -158,4 +186,30 @@ function movePlayer() {
 	}else if(key.isDown("DOWN") && mainPlayer.y < gameHeight - mainPlayer.h - 50) {
 		mainPlayer.move(v2d(0, mainPlayer.speed));
 	}
+}
+
+
+//timeer
+setInterval(function () {
+	regHitPlayer();
+}, 1000);
+
+
+//regineration hit player
+function regHitPlayer() {
+	if(mainPlayer.health < mainPlayer.maxHealth) {
+		mainPlayer.health += mainPlayer.hit;
+	}
+	if(mainPlayer.engMana < mainPlayer.maxEngMana) {
+		mainPlayer.engMana += mainPlayer.hit;
+	}
+}
+
+
+//Game over
+function gameOver() {
+	mainPlayer.setPosition(point(mainPlayer.w*2, gameHeight/2 + mainPlayer.h - 90));
+	mainPlayer.health = Math.floor(mainPlayer.maxHealth/2);
+	mainPlayer.superMana = 0;
+	mainPlayer.opit = 0;
 }

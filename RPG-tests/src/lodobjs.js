@@ -11,7 +11,9 @@ var menuIconsObjs = [];
 const NUM_ICONS = 4;
 const NUM_SCANES = 1;
 const NUM_UI = 1;
-const NUM_BUT_MENU = 1;
+const NUM_BUT_MENU = 2;
+const NUM_SOUNDS = 2;
+const NUM_SOUNDS_ENEMY = 2;
 
 var volumAudio = 1;
 var stoping = false;
@@ -22,6 +24,7 @@ var arrUIPlayer = [];
 var arrAudioBg = [];
 var arrEnemyTypes = [];
 var arrEnemy = [];
+var arrMainSounds = [];
 
 var scaneGame = {};
 var menuBg = {};
@@ -46,8 +49,14 @@ function deletPath(path, id, world) {
     arrAudioBg = [];
     arrEnemyTypes = [];
     arrEnemy = [];
+    arrUIPlayer = [];
+    menuIconsObjs = [];
+    arrMinusMenu = [];
+    arrPlusMenu = [];
+    arrMainSounds = [];
     userImg = {};
-    dataMap = {};
+    blankObj = {};
+    rectMenu = {};
 
 	if(path == "menu") {
 	    menuIconsObjs = [];
@@ -58,7 +67,6 @@ function deletPath(path, id, world) {
 	    rectMenu = {};
 	    inputObj = {};
 	    blankObj = {};
-	    dataMap = {};
     }else if(path == "game") {
     	arrUIPlayer = [];
         arrAudioBg = [];
@@ -145,10 +153,19 @@ function loadPath(path, id, world) {
     }else if(path == "game") {
 
         //Musik game ------------
-        /*for(let i = gameData.numMusik; i--;) {
+        for(let i = gameData.numMusik; i--;) {
             let aud = audio.newAudio("audio/world_" + world + "/aud_" + i + ".mp3", volumAudio);
             arrAudioBg.push(aud);
-        }*/
+        }
+        for(let i = NUM_SOUNDS; i--;) {
+            let sound = audio.newAudio("audio/sound/soun_" + i + ".mp3", volumAudio);
+            arrMainSounds.push(sound);
+        }
+
+        for(let i = NUM_SOUNDS_ENEMY; i--;) {
+            let sound = audio.newAudio("audio/sound/enemy/soun_" + i + ".mp3", volumAudio);
+            arrMainSounds.push(sound);
+        }
 
     	//Bg  main stat
     	for(let i = NUM_UI; i--;) {
@@ -270,7 +287,7 @@ function loadPath(path, id, world) {
             arrEnemyTypes.push(enm);
         }
 
-        for(let i = 0; i < gameData.numEnemy; i++) {
+        /*for(let i = 0; i < gameData.numEnemy; i++) {
                 let enm = game.newAnimationObject({
                 x: 90*i, y: 300,
                 w: 85, h: 130,
@@ -287,7 +304,7 @@ function loadPath(path, id, world) {
                 view: false
             });
             arrEnemy.push(enm);
-            }
+            }*/
 
 
     	//user img

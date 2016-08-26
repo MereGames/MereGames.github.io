@@ -1,5 +1,5 @@
 {
-	"maxSize" : 5,
+	"maxSize" : 4,
 	"numEnemyTypes" : 1,
-	"numEnemy" : 60
+	"numEnemy" : 20
 }

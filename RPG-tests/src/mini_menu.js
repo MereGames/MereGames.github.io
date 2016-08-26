@@ -14,10 +14,11 @@
 var miniMenu = {
 	yList: 160,
 	y: 130,
-	speed: 4,
+	speed: 6,
 
 	//OPen
 	openM: function () {
+		this.yList = 160;
 		for(let i = arrUIPlayer.length; i--;) {
 			if(arrUIPlayer[i].class == "minMenu" && arrUIPlayer[i].ID != 0) {
 				if(arrUIPlayer[i].visible == false) {
@@ -25,6 +26,8 @@ var miniMenu = {
 				}
 				if(arrUIPlayer[i].y < this.yList) {
 				    arrUIPlayer[i].addY += this.speed;
+			    }else {
+			    	this.yList += 50;
 			    }
 			}
 		}

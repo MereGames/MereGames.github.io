@@ -25,6 +25,8 @@ var drawScane = false;
 
 var openMenu = false;
 
+var oepnRead = false;
+
 var startFPS = 60;
 
 var allObjsGame = [];
@@ -83,6 +85,7 @@ game.newLoop('game', function () {
 	    moveEnemy();
 
 	    mouseEvents();
+	    keyboardEvents();
 
 	    //Fps game
 	    if(viewFPS == true) {
@@ -250,6 +253,7 @@ function checkEnter() {
 		mouse.setCursorImage('img/cur_def.png');
 
 		game.startLoop("loadingScane");
+		dataMap = {};
 	}else {
 		openInput = true;
 		viewMsg = true;
@@ -293,21 +297,34 @@ game.newLoop('loadingScane', function () {
 	//Fill canvas
 	game.fill('#999');
 
-	//Load and dell
-	if(loadComlit == false) {
-		//Data for map
+	//Data for map
+	if(oepnRead == false && gameData.nextScaneName != "menu") {
         OOP.readJSON("maps/world_" + gameData.nextWorld + "/data/scane_" + gameData.nextScaneId + ".json", function (obj) {
     	    dataMap = obj;
     	    maxSizeMap = dataMap.maxSize;
             gameData.numEnemyTypes = dataMap.numEnemyTypes;
             gameData.numEnemy = dataMap.numEnemy;
         });
+        oepnRead = true;
+    }
+
+    if(scaneGame.draw == undefined) {
+        scaneGame = game.newImageObject({
+	        x: 0, y: 0,
+	        w: gameWidth*2, h: gameHeight,
+	        file: "maps/world_" + gameData.nextWorld + "/img/scane_" + 0 + ".png"
+        });
+    }
+
+	//Load and dell
+	if(loadComlit == false && dataMap.maxSize != undefined) {
 		//Stop musik
 		for(let i = arrAudioBg.length; i--;) {
 			if(arrAudioBg[i].playing == true) {
 				arrAudioBg[i].stop();
 			}
 		}
+
 
 	    deletPath(gameData.totalScaneName, gameData.totalScaneId, gameData.totalWorld);
 	    loadPath(gameData.nextScaneName, gameData.nextScaneId, gameData.nextWorld);
@@ -317,16 +334,16 @@ game.newLoop('loadingScane', function () {
     drawLoading();
 
     //Is loaded
-	if(resources.isLoaded() && resources.getProgress() >= 99) {
-		deletPath(gameData.totalScaneName, gameData.totalScaneId, gameData.totalWorld);
-	    loadPath(gameData.nextScaneName, gameData.nextScaneId, gameData.nextWorld);
+	if(resources.isLoaded() && resources.getProgress() >= 99 && dataMap.maxSize != undefined) {
 
 		game.startLoop(gameData.nextScaneName);
 		gameLog('Go to ' + gameData.nextScaneName, 'RPG', 'Done');
 
 		gameData.totalScaneId = gameData.nextScaneId;
 		gameData.totalScaneName = gameData.nextScaneName;
-		    // @ New pos player
+
+		oepnRead = false;
+		// @ New pos player
 		if(gameData.nextScaneName == "menu") {
 		    mainPlayer.setPosition(point(gameWidth/2 - rectMenu.w/2 + 70, gameHeight/2 - mainPlayer.h/2 + 20));
 	    }else {
@@ -418,8 +435,9 @@ function drawWorld() {
 //Update game -------
 function updateWorld() {
 	//draw on layers
+	if(arrEnemy.length > 0) {
 	for(let i = arrEnemy.length; i--;) {
-		if(mainPlayer.y > arrEnemy[i].y) {
+		if(mainPlayer.y + 50 > arrEnemy[i].y) {
 			drawEnemys();
 	        mainPlayer.drawFrames(mainPlayer.strFram, mainPlayer.endFram);
 	        return;
@@ -429,6 +447,9 @@ function updateWorld() {
 			return;
 		}
 	}
+    }else {
+    	mainPlayer.drawFrames(mainPlayer.strFram, mainPlayer.endFram);
+    }
 }
 
 function updatePlayer() {
@@ -439,6 +460,40 @@ function updatePlayer() {
 		miniMenu.openM();
 	}else {
 		miniMenu.closeM();
+	}
+
+	//Reload
+	if(mainPlayer.reload < mainPlayer._reload) {
+		mainPlayer.reload += 1;
+	}
+
+	//Health
+	if(mainPlayer.health < 0) {
+		mainPlayer.health = 0;
+		gameOver();
+	}else if(mainPlayer.health > mainPlayer.maxHealth) {
+		mainPlayer.health = mainPlayer.maxHealth;
+	}
+
+	//Super
+	if(mainPlayer.superMana > mainPlayer.maxSuperMana) {
+		mainPlayer.superMana = mainPlayer.maxSuperMana;
+	}else if(mainPlayer.superMana > mainPlayer.maxSuperMana) {
+		mainPlayer.superMana = mainPlayer.maxSuperMana;
+	}
+
+	//New level
+	if(mainPlayer.opit >= mainPlayer.needOpit) {
+		mainPlayer.level += 1;
+		mainPlayer.opit = 0;
+		mainPlayer.needOpit += mainPlayer.needOpit*2;
+		mainPlayer.hit += 1;
+
+		//add hal ---------------=======*
+		mainPlayer.maxHealth += Math.floor(mainPlayer.maxHealth/5);
+		mainPlayer.health = mainPlayer.maxHealth;
+		mainPlayer.maxEngMana += Math.floor(mainPlayer.maxEngMana/5);
+		mainPlayer.engMana = mainPlayer.maxEngMana;
 	}
 
 	//draw ui
@@ -468,7 +523,7 @@ function mouseEvents() {
 
 				    numPoints -= 1;
 			    }else if(mouse.isInObject(arrMinusMenu[i])) {
-				    (i==0 && mainPlayer.dameg > 3) ? mainPlayer.dameg -= 1 : (i==1 && mainPlayer.skilDmg > 1) ? mainPlayer.skilDmg -= 1 : (i==2 && mainPlayer.defent > 0) ? mainPlayer.defent -= 1 : (i==3 && mainPlayer.health > 5) ? mainPlayer.health -= 1 : numPoints -= 1;
+				    (i==0 && mainPlayer.dameg > 4) ? mainPlayer.dameg -= 1 : (i==1 && mainPlayer.skilDmg > 1) ? mainPlayer.skilDmg -= 1 : (i==2 && mainPlayer.defent > 0) ? mainPlayer.defent -= 1 : (i==3 && mainPlayer.health > 18) ? mainPlayer.health -= 1 : numPoints -= 1;
 
 				    numPoints += 1;
 			    }
@@ -538,6 +593,14 @@ function mouseEvents() {
 	}
 
 	// *
+}
+
+//Keyboard
+function keyboardEvents() {
+	if(key.isDown("N") && mainPlayer.reload == mainPlayer._reload) {
+		mainPlayer.atacing();
+		mainPlayer.boom1.play();
+	}
 }
 
 //Musik ------
@@ -614,6 +677,7 @@ if(userAg.browser.family == "Chrome" || userAg.browser.family == "chrome") {
 	//Load
 	if(!deviceJs.android() && !deviceJs.ios() && !deviceJs.ipad() && !deviceJs.iphone() && !deviceJs.mobile()) {
         game.startLoop('loadingScane');
+        dataMap = {};
         drawScane = false;
         game.setFPS(startFPS);
         gameLog("Start game! Browser is Chrome!", "DTC", "Start");
