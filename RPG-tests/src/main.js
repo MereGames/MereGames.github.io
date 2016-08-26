@@ -306,7 +306,9 @@ game.newLoop('loadingScane', function () {
             gameData.numEnemy = dataMap.numEnemy;
         });
         oepnRead = true;
-    }
+    }else {
+        dataMap.maxSize = 4;q
+}
 
     if(scaneGame.draw == undefined) {
         scaneGame = game.newImageObject({
