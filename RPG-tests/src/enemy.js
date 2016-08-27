@@ -86,10 +86,12 @@ function createEnemys(type, num, time) {
                 },
                 atacing: function () {
                 	if(this.activ == true && this.reload == this._reload) {
-                		if(this.x <= mainPlayer.x + mainPlayer.w && this.x + this.w*2.5 >= mainPlayer.x + mainPlayer.w) {
-                			mainPlayer.health -= this.dameg;
+                		if(this.x - this.w/3 <= mainPlayer.x + mainPlayer.w && this.x + this.w*3 >= mainPlayer.x + mainPlayer.w) {
+                			let randGMG = math.random(this.dameg/2, this.dameg, true);
+                			mainPlayer.health -= randGMG;
                 			this.boom.play();
                 			this.reload = 0;
+                			arrTextUp.push(getTextUp("-"+randGMG, "player", i, "red", 2));
                 		}
                 	}
                 	if(this.reload < this._reload) {
@@ -170,9 +172,6 @@ function checkKillEnemy() {
 		if(arrEnemy[i].health <= 0) {
 			arrEnemy[i].health = 0;
 			mainPlayer.opit += arrEnemy[i].add.opit;
-			if(mainPlayer.maxSuperMana > mainPlayer.superMana) {
-			    mainPlayer.superMana += arrEnemy[i].add.superMana;
-		    }
 		    dataEnemy[arrEnemy[i].typeEn].addXEn -= addEn;
 
 			arrEnemy.splice(i, 1);

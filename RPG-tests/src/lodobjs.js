@@ -25,6 +25,7 @@ var arrAudioBg = [];
 var arrEnemyTypes = [];
 var arrEnemy = [];
 var arrMainSounds = [];
+var arrTextUp = [];
 
 var scaneGame = {};
 var menuBg = {};
@@ -33,6 +34,8 @@ var inputObj = {};
 var blankObj = {};
 
 var dataMap = {};
+
+var pogotInim = {};
 
 //For Plus and Minus
 var addY = -60; var addX = 47;
@@ -54,9 +57,11 @@ function deletPath(path, id, world) {
     arrMinusMenu = [];
     arrPlusMenu = [];
     arrMainSounds = [];
+    arrTextUp = [];
     userImg = {};
     blankObj = {};
     rectMenu = {};
+    pogotInim = {};
 
 	if(path == "menu") {
 	    menuIconsObjs = [];
@@ -81,6 +86,13 @@ function loadPath(path, id, world) {
 	    w: gameWidth*2, h: gameHeight,
 	    file: "maps/world_" + world + "/img/scane_" + id + ".png"
     });
+    if(dataMap.pogod == true) {
+        pogotInim = game.newImageObject({
+            x: 0, y: -gameHeight,
+            w: gameWidth, h: gameHeight*2,
+            file: "maps/world_" + world + "/img/pog.png"
+        });
+    }
 
     //Menu load
     if(path == "menu") {
@@ -153,10 +165,10 @@ function loadPath(path, id, world) {
     }else if(path == "game") {
 
         //Musik game ------------
-        for(let i = gameData.numMusik; i--;) {
+        /*for(let i = gameData.numMusik; i--;) {
             let aud = audio.newAudio("audio/world_" + world + "/aud_" + i + ".mp3", volumAudio);
             arrAudioBg.push(aud);
-        }
+        }*/
         for(let i = NUM_SOUNDS; i--;) {
             let sound = audio.newAudio("audio/sound/soun_" + i + ".mp3", volumAudio);
             arrMainSounds.push(sound);
@@ -256,7 +268,7 @@ function loadPath(path, id, world) {
     		let butMenu = game.newImageObject({
     		    x: 0, y: 0,
     		    file: "img/bt_" + i + ".png",
-    		    w: 40, h: 40
+    		    w: 45, h: 45
     	    });
     	    butMenu.setUserData({
     		    addX: 36,

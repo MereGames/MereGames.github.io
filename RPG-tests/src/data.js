@@ -32,7 +32,7 @@ var dataEnemy = [
      	name: "en_0",
      	pointStr: {
      		x: 700,
-     		y: gameHeight/2 + 20
+     		y: gameHeight/2 + 40
      	},
      	spavnTime: 3000,
      	addXEn: 0,
@@ -42,9 +42,9 @@ var dataEnemy = [
      	radius: 400,
      	reload: 50,
      	add: {
-     		opit: 57,
+     		opit: 157,
      		dush: 1,
-     		superMana: 6
+     		superMana: 1
      	}
      },
 
@@ -52,19 +52,19 @@ var dataEnemy = [
      	name: "en_1",
      	pointStr: {
      		x: 3000,
-     		y: gameHeight/2 + 20
+     		y: gameHeight/2 + 40
      	},
      	spavnTime: 5000,
      	addXEn: 0,
      	health: 58,
-     	dameg: 5,
-     	speed: 6,
+     	dameg: 6,
+     	speed: 3,
      	radius: 500,
      	reload: 60,
      	add: {
      		opit: 186,
      		dush: 1,
-     		superMana: 16
+     		superMana: 2
      	}
      }
 ];

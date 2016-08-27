@@ -8,7 +8,7 @@
 
 //const test
 const TEST_GAME = true;
-var startLocat = "menu";
+var startLocat = "game";
 var startId = 0;
 var startWorld = 1;
 
@@ -306,9 +306,7 @@ game.newLoop('loadingScane', function () {
             gameData.numEnemy = dataMap.numEnemy;
         });
         oepnRead = true;
-    }else {
-        dataMap.maxSize = 4;
-}
+    }
 
     if(scaneGame.draw == undefined) {
         scaneGame = game.newImageObject({
@@ -439,19 +437,44 @@ function updateWorld() {
 	//draw on layers
 	if(arrEnemy.length > 0) {
 	for(let i = arrEnemy.length; i--;) {
-		if(mainPlayer.y + 50 > arrEnemy[i].y) {
+		if(mainPlayer.y + mainPlayer.h > arrEnemy[i].y + arrEnemy[i].h) {
 			drawEnemys();
 	        mainPlayer.drawFrames(mainPlayer.strFram, mainPlayer.endFram);
-	        return;
+	        break;
 		}else {
 			mainPlayer.drawFrames(mainPlayer.strFram, mainPlayer.endFram);
 			drawEnemys();
-			return;
+			break;
 		}
 	}
     }else {
     	mainPlayer.drawFrames(mainPlayer.strFram, mainPlayer.endFram);
     }
+
+    sizeMap = addSize*2;
+	for(let s = sizeMap; s--;) {
+	    pogotInim.x = addXBg;
+	    if(pogotInim.isInCamera()) {
+	        pogotInim.draw();
+	        pogotInim.move(v2d(0, 2));
+	        if(pogotInim.y > 0) {
+	        	pogotInim.y = -gameHeight;
+	        }
+	        if(_maxDis > maxDis) {
+	        	maxDis += 1;
+	        }
+	    }else {
+	    	if(addSize < maxSizeMap && addSize < viewDis) {
+	    	    addSize += 1;
+	        }else if(viewDis < maxDis){
+	        	viewDis += 1;
+	        	_maxDis += 1;
+	        }
+	    }
+	    addXBg += pogotInim.w;
+    }
+
+    addXBg = 0;
 }
 
 function updatePlayer() {
@@ -491,6 +514,9 @@ function updatePlayer() {
 		mainPlayer.needOpit += mainPlayer.needOpit*2;
 		mainPlayer.hit += 1;
 
+		//Up text
+		arrTextUp.push(getTextUp("Новый уровень!", "player", 0, "orange", 0.8));
+
 		//add hal ---------------=======*
 		mainPlayer.maxHealth += Math.floor(mainPlayer.maxHealth/5);
 		mainPlayer.health = mainPlayer.maxHealth;
@@ -510,6 +536,11 @@ function updatePlayer() {
 
 	if(mainPlayer.visible == false) {
 		mainPlayer.visible = true;
+	}
+
+	//Up text
+	if(mainPlayer.viewUp == true) {
+		mainPlayer.viewUpText();
 	}
 }
 

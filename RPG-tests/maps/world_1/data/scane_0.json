@@ -1,5 +1,6 @@
 {
 	"maxSize" : 4,
 	"numEnemyTypes" : 1,
-	"numEnemy" : 20
+	"numEnemy" : 20,
+	"pogod" : true
 }

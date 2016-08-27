@@ -27,7 +27,7 @@ var miniMenu = {
 				if(arrUIPlayer[i].y < this.yList) {
 				    arrUIPlayer[i].addY += this.speed;
 			    }else {
-			    	this.yList += 50;
+			    	this.yList += 40;
 			    }
 			}
 		}

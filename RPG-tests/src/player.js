@@ -25,10 +25,10 @@ mainPlayer.setUserData({
 	//Baze
 	health: 27,
 	maxHealth: 27,
-	engMana: 20,
-	maxEngMana: 30,
-	superMana: 20,
-	maxSuperMana: 100,
+	engMana: 10,
+	maxEngMana: 10,
+	superMana: 0,
+	maxSuperMana: 80,
 
 	level: 1,
 	opit: 0,
@@ -53,6 +53,17 @@ mainPlayer.setUserData({
 	//num Frames
 	strFram: 0,
 	endFram: 1,
+
+	textUp: game.newTextObject({
+		x: this.x, y: this.y - 20,
+		size: 25,
+		font: "cursive",
+		text: "Новый уровень",
+		color: "red",
+		alpha: 1
+	}),
+	viewUp: true,
+	textY: 0,
 
 	playAnim: function (anim) {
 		//Set Type Animation
@@ -128,11 +139,25 @@ mainPlayer.setUserData({
 	atacing: function () {
 		for(let i = arrEnemy.length; i--;) {
 			if(this.x <= arrEnemy[i].x + arrEnemy[i].w && this.x + this.w*2.5 >= arrEnemy[i].x + arrEnemy[i].w) {
-				arrEnemy[i].health -= this.dameg;
+				let randGMG = math.random(this.dameg/2, this.dameg, true);
+				arrEnemy[i].health -= randGMG;
+				this.superMana += arrEnemy[i].add.superMana;
+				arrTextUp.push(getTextUp("-"+randGMG, "enemy", i, "green", 2));
 			}
 		}
 
 		this.reload = 0;
+	},
+
+	viewUpText: function () {
+		for(let i = arrTextUp.length; i--;) {
+			arrTextUp[i].draw();
+			arrTextUp[i].transparent(-arrTextUp[i].time/100);
+			arrTextUp[i].y -= arrTextUp[i].time;
+			if(arrTextUp[i].alpha <= 0) {
+				arrTextUp.splice(i, 1);
+			}
+		}
 	}
 });
 
@@ -158,6 +183,22 @@ function textStat(id) {
 		    align: "left"
 	    });
 	}
+}
+
+//Get text
+function getTextUp(text, type, id, color, time) {
+	let textU = game.newTextObject({
+		x: (type != "enemy") ? mainPlayer.x : arrEnemy[id].x, y: mainPlayer.y - mainPlayer.h/4,
+		size: 22,
+		color: color,
+		font: "cursive",
+		text: text,
+		align: "center"
+	});
+	textU.setUserData({
+		time: time
+	});
+	return textU;
 }
 
 
@@ -208,8 +249,14 @@ function regHitPlayer() {
 
 //Game over
 function gameOver() {
-	mainPlayer.setPosition(point(mainPlayer.w*2, gameHeight/2 + mainPlayer.h - 90));
-	mainPlayer.health = Math.floor(mainPlayer.maxHealth/2);
-	mainPlayer.superMana = 0;
-	mainPlayer.opit = 0;
+	game.stop();
+	setTimeout(function () {
+		game.resume();
+		mainPlayer.setPosition(point(mainPlayer.w*2, gameHeight/2 + mainPlayer.h - 90));
+	    mainPlayer.health = mainPlayer.maxHealth;
+	    mainPlayer.engMana = mainPlayer.maxEngMana;
+	    mainPlayer.superMana = 0;
+	    mainPlayer.opit = Math.floor(mainPlayer.opit/1.6);
+	    arrEnemy = [];
+	}, 3000);
 }
