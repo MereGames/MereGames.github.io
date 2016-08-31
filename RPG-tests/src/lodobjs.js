@@ -14,6 +14,7 @@ const NUM_UI = 1;
 const NUM_BUT_MENU = 4;
 const NUM_SOUNDS = 2;
 const NUM_SOUNDS_ENEMY = 2;
+const NUM_SKILLS = 1;
 
 var volumAudio = 1;
 var stoping = false;
@@ -334,24 +335,21 @@ function loadPath(path, id, world) {
             arrUIPlayer.push(bordImg);
         }
 
-        /*for(let i = 0; i < gameData.numEnemy; i++) {
-                let enm = game.newAnimationObject({
-                x: 90*i, y: 300,
-                w: 85, h: 130,
-                animation: tiles.newImage("maps/world_" + world + "/img/enemy/enemy_" + (arrEnemyTypes.length-1)*1 + ".png").getAnimation(0, 0, 150, 200, 1),
-                delay: 1,
+        for(let i = NUM_SKILLS; i--;) {
+            let bordImg = game.newImageObject({
+                x: 0, y: 0,
+                w: 68, h: 68,
+                file: "img/skill_" + i + ".png"
             });
-            enm.setUserData({
-                radius: 400,
-                health: 100,
-                maxHealth: 100,
-                speed: 2,
-                activ: false,
-                call: false,
-                view: false
+            bordImg.setUserData({
+                addX: (i==0) ? gameWidth - (75*i + 75) : gameWidth - 75*i,
+                addY: 5,
+                class: "skillImg",
+                ID: i+1,
             });
-            arrEnemy.push(enm);
-            }*/
+
+            arrUIPlayer.push(bordImg);
+        }
 
 
     	//user img

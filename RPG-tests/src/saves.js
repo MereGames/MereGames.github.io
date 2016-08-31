@@ -19,9 +19,6 @@ setInterval(function () {
 	    maxEngMana: mainPlayer.maxEngMana,
 	    superMana: mainPlayer.superMana,
 	    maxSuperMana: mainPlayer.maxSuperMana,
-	    
-	    xPl: mainPlayer.x,
-	    yPl: mainPlayer.y,
 
 		defent: mainPlayer.defent,
 		dameg: mainPlayer.dameg,
@@ -48,9 +45,7 @@ if(openOnHost == true) {
 	setInterval(function () {
 		if(loadedSaves == true && dataCleared == false && gameData.newPlayer == false) {
 			VK.api("storage.set", {key: "saveData", value: stringData, global: 0}, function (data) {
-				if(mainPlayer.health == undefined) {
-					mainPlayer.health = mainPlayer.maxHealth;
-				}
+				//
 			});
 		}
 	}, saveTime + 30);
