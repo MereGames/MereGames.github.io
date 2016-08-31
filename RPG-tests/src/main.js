@@ -65,7 +65,7 @@ var keyMenuOpen = "X";
 game.newLoop('game', function () {
 	//Clear All
 	// ## game.clear(); ##
-	log(gameData.totalScaneName);
+	log(gameData.totalScaneId);
 
 	//Fill canvas
 	game.fill('#777');
