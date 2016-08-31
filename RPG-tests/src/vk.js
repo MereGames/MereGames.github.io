@@ -43,8 +43,7 @@ function reOpenVk() {
                 mainPlayer.dameg = savedData[0].dameg;
                 mainPlayer.name = savedData[0].name;
                 mainPlayer.hit = savedData[0].hit;
-               // mainPlayer.x = savedData[0].xPl;
-               // mainPlayer.y = savedData[0].yPl;
+                mainPlayer.x = savedData[0].xPl;
 
 	    		gameData.nextScaneId = 0;
                 gameData.nextScaneName = "game";
