@@ -23,7 +23,7 @@ function reOpenVk() {
 	    });
 
 	    VK.api("storage.get", {key: "saveData", global: 0}, function(data) {
-	    	if(data != 1) {
+	    	if(data.response != 1) {
 	    		JSON.parse(data.response);
 	    		log(data);
 	    		loadedSaves = true;
