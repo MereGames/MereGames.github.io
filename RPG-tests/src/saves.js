@@ -45,7 +45,7 @@ if(openOnHost == true) {
 	setInterval(function () {
 		if(loadedSaves == true && dataCleared == false && gameData.newPlayer == false) {
 			VK.api("storage.set", {key: "saveData", value: stringData, global: 0}, function (data) {
-				//
+				log(mainPlayer.health);
 			});
 		}
 	}, saveTime + 30);
