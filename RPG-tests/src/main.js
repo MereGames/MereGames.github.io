@@ -345,6 +345,8 @@ game.newLoop('loadingScane', function () {
 
 		gameData.totalScaneId = gameData.nextScaneId;
 		gameData.totalScaneName = gameData.nextScaneName;
+		
+		log("s");
 
 		oepnRead = false;
 		// @ New pos player
