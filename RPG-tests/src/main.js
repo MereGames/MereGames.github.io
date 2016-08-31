@@ -724,6 +724,7 @@ var iterStr = setInterval(function () {
         gameData.nextWorld = startWorld;
         gameData.numMusik = 3;
         checkBrow();
+        log("s");
 
         clearInterval(iterStr);
     }else if(openOnHost == true) {
