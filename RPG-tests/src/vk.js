@@ -33,6 +33,7 @@ function reOpenVk() {
 	    		log(savedData);
 	    		
 	    		gameData.nextScaneId = startId;
+	    		mainPlayer.health = savedData.savedData.health;
         gameData.nextScaneName = startLocat;
         gameData.nextWorld = startWorld;
         gameData.numMusik = 3;
