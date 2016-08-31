@@ -26,9 +26,9 @@ function reOpenVk() {
 	    	if(data.response != "") {
 	    		//JSON.parse(data.response);
 	    		log(data);
-	    		loadedSaves = true;
 	    	}
 	     });
+	     loadedSaves = true;
     }
 }
 reOpenVk();
