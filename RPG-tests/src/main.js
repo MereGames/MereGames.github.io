@@ -85,8 +85,6 @@ game.newLoop('game', function () {
 	    updateWorld();
 	    updatePlayer();
 	    updateEnemys();
-	    
-	    log("sssssssss");
 
 	    moveEnemy();
 
