@@ -352,7 +352,7 @@ game.newLoop('loadingScane', function () {
 		// @ New pos player
 		if(gameData.nextScaneName == "menu") {
 		    mainPlayer.setPosition(point(gameWidth/2 - rectMenu.w/2 + 70, gameHeight/2 - mainPlayer.h/2 + 20));
-	    }else {
+	    }else if(mainPlayer.y < gameHeight/2 - 70){
 	    	mainPlayer.setPosition(point(gameWidth/2 - mainPlayer.w, gameHeight/2 + mainPlayer.h - 90));
 	    }
 
