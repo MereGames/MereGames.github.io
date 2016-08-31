@@ -332,7 +332,8 @@ game.newLoop('loadingScane', function () {
 			}
 		}
 
-
+log(gameData.totalScaneName);
+log(gameData.nextScaneName);
 	    deletPath(gameData.totalScaneName, gameData.totalScaneId, gameData.totalWorld);
 	    loadPath(gameData.nextScaneName, gameData.nextScaneId, gameData.nextWorld);
 	    loadComlit = true;
