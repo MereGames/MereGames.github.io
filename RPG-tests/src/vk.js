@@ -30,7 +30,6 @@ function reOpenVk() {
 	    		let dataSV = JSON.parse(resp);
 
 	    		savedData = dataSV;
-	    		log(savedData[0].health);
 
 	    		gameData.nextScaneId = 0;
                 gameData.nextScaneName = "game";
@@ -38,7 +37,7 @@ function reOpenVk() {
                 gameData.numMusik = 3;
                 checkBrow();
 
-                mainPlayer.health = saveData.health;
+                mainPlayer.health = saveData[0].health;
 	    		
 	    		gameData.newPlayer = false;
 
