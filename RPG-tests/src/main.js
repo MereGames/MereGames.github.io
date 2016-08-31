@@ -759,3 +759,7 @@ if(userAg.browser.family == "Chrome" || userAg.browser.family == "chrome") {
 	deviceJs = null;
 }
 }
+
+window.onerror = function (err) {
+	alert(err);
+}
