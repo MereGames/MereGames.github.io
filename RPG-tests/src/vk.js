@@ -20,7 +20,6 @@ function reOpenVk() {
 	
     if(openOnHost == true) {
     	//User img
-    	clearData();
 	    VK.api("users.get", {fields: "photo_100", name_case: "nom"}, function (data) {
 		    photoUser = data.response[0].photo_100;
 		    log("load photo...");
@@ -42,8 +41,10 @@ function reOpenVk() {
                 mainPlayer.needOpit = savedData[0].needOpit;
                 mainPlayer.defent = savedData[0].defent;
                 mainPlayer.dameg = savedData[0].dameg;
+                mainPlayer.name = savedData[0].name;
+                mainPlayer.hit = savedData[0].hit;
 
-	        gameData.nextScaneId = 0;
+	    		gameData.nextScaneId = 0;
                 gameData.nextScaneName = "game";
                 gameData.nextWorld = 1;
                 gameData.numMusik = 3;
@@ -70,7 +71,6 @@ function clearData() {
 		dataCleared = true;
 	});
 }
-
 reOpenVk();
 
 
