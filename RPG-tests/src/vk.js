@@ -30,20 +30,23 @@ function reOpenVk() {
 	    		let dataSV = JSON.parse(resp);
 
 	    		savedData = dataSV;
+
 	    		mainPlayer.health = savedData[0].health;
-                        mainPlayer.maxHealth = savedData[0].maxHealth;
-                        mainPlayer.engMana = savedData[0].engMana;
-                        mainPlayer.maxEngMana = savedData[0].maxEngMana;
-                        mainPlayer.level = savedData[0].level;
-                        mainPlayer.opit = savedData[0].needOpit;
-                        mainPlayer.defent = savedData[0].defent;
-                        mainPlayer.dameg = savedData[0].gameg;
+                mainPlayer.maxHealth = savedData[0].maxHealth;
+                mainPlayer.engMana = savedData[0].engMana;
+                mainPlayer.maxEngMana = savedData[0].maxEngMana;
+                mainPlayer.level = savedData[0].level;
+                mainPlayer.opit = savedData[0].needOpit;
+                mainPlayer.defent = savedData[0].defent;
+                mainPlayer.dameg = savedData[0].dameg;
 
 	    		gameData.nextScaneId = 0;
                 gameData.nextScaneName = "game";
                 gameData.nextWorld = 1;
                 gameData.numMusik = 3;
                 checkBrow();
+
+                mainPlayer.health = saveData.health;
 	    		
 	    		gameData.newPlayer = false;
 
