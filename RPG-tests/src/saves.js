@@ -27,6 +27,11 @@ setInterval(function () {
 		name: mainPlayer.name,
 		activ: mainPlayer.activ,
 
+		hit: mainPlayer.hit,
+		level: mainPlayer.level,
+		opit: mainPlayer.opit,
+		needOpit: mainPlayer.needOpit,
+
 		startWorld: 0,
 		startId: 0
 	}
@@ -39,10 +44,10 @@ setInterval(function () {
 if(openOnHost == true) {
 	setInterval(function () {
 		if(loadedSaves == true) {
-			VK.api("storage.set", {key: "saveData", value: stringData, global: 0}, function (data) {
+			VK.api("storage.set", {key: "saveData", value: saveData, global: 0}, function (data) {
 				//
 			});
 		}
-	}, saveTime + 700);
+	}, saveTime + 600);
 }
 

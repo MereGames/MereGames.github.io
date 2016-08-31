@@ -10,6 +10,8 @@
 
 var photoUser = null;
 var openOnHost = (window.location.hostname == "meregames.github.io") || false;
+var loadedSaves = false;
+var savedData = undefined;
 
 
 function reOpenVk() {
@@ -26,10 +28,18 @@ function reOpenVk() {
 	    	if(data.response != "") {
 	    		let resp = data.response;
 	    		let dataSV = JSON.parse(resp);
-	    		log(dataSV);
+
+	    		savedData = dataSV;
+	    		
+	    		gameData.newPlayer = false;
+
+	    		loadedSaves = true;
+	    	}else {
+	    		loadedSaves = true;
 	    	}
-	    	loadedSaves = true;
 	     });
+    }else {
+    	loadedSaves = true;
     }
 }
 reOpenVk();

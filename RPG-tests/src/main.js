@@ -43,8 +43,6 @@ var endTrans = true;
 
 var openInput = false;
 
-var loadedSaves = false;
-
 var viewFPS = true;
 var viewMsg = false;
 var viewHelpBl = false;
@@ -714,12 +712,16 @@ system.addEvent("onload", "loadPage", function () {
 });
 
 //New player -------------
-if(gameData.newPlayer == true) {
-    gameData.nextScaneId = startId;
-    gameData.nextScaneName = startLocat;
-    gameData.nextWorld = startWorld;
-    gameData.numMusik = 3;
-}
+var iterStr = setInterval(function () {
+	if(gameData.newPlayer == true && loadedSaves == true) {
+        gameData.nextScaneId = startId;
+        gameData.nextScaneName = startLocat;
+        gameData.nextWorld = startWorld;
+        gameData.numMusik = 3;
+
+        clearInterval(iterStr);
+    }
+}, 100);
 
 //Version PointJS
 log("Engine: PointJS 0.5.9 whith my context");
