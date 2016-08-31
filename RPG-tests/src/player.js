@@ -121,6 +121,10 @@ mainPlayer.setUserData({
 							text: this.reloads[arrUIPlayer[p].ID - 1].level
 						});
 						arrUIPlayer[p].fillColor = "red";
+					}else if(this.reloads[arrUIPlayer[p].ID - 1].num == this.reloads[arrUIPlayer[p].ID - 1].max) {
+						arrUIPlayer[p].fillColor = "";
+					}else {
+						arrUIPlayer[p].fillColor = "black";
 					}
 					arrUIPlayer[p].h = -(this.reloads[arrUIPlayer[p].ID - 1].num/this.reloads[arrUIPlayer[p].ID - 1].max)*68;
 				}

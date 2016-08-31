@@ -27,6 +27,9 @@ setInterval(function () {
 		name: mainPlayer.name,
 		activ: mainPlayer.activ,
 
+		xPl: mainPlayer.x,
+	    yPl: mainPlayer.y,
+
 		hit: mainPlayer.hit,
 		level: mainPlayer.level,
 		opit: mainPlayer.opit,
@@ -43,7 +46,7 @@ setInterval(function () {
 
 if(openOnHost == true) {
 	setInterval(function () {
-		if(loadedSaves == true && dataCleared == false && gameData.newPlayer == false) {
+		if(loadedSaves == true && dataCleared == false && gameDatanewPlayer == false) {
 			VK.api("storage.set", {key: "saveData", value: stringData, global: 0}, function (data) {
 				//
 			});
