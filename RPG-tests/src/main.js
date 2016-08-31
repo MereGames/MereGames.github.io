@@ -312,6 +312,7 @@ game.newLoop('loadingScane', function () {
         oepnRead = true;
     }else if(gameData.nextScaneName == "menu"){
     	dataMap.maxSize = 2;
+    	log("ss");
     }
 
     if(scaneGame.draw == undefined) {
