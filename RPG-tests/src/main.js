@@ -65,7 +65,6 @@ var keyMenuOpen = "X";
 game.newLoop('game', function () {
 	//Clear All
 	// ## game.clear(); ##
-	log(gameData.totalWorld);
 
 	//Fill canvas
 	game.fill('#777');
@@ -718,13 +717,12 @@ system.addEvent("onload", "loadPage", function () {
 
 //New player -------------
 var iterStr = setInterval(function () {
-	if(gameData.newPlayer == true && loadedSaves == true) {
+	if(gameData.newPlayer == true && loadedSaves == true && openOnHost == false) {
         gameData.nextScaneId = startId;
         gameData.nextScaneName = startLocat;
         gameData.nextWorld = startWorld;
         gameData.numMusik = 3;
         checkBrow();
-        log("s");
 
         clearInterval(iterStr);
     }else if(openOnHost == true) {
