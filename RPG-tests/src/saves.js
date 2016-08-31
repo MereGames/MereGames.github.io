@@ -45,7 +45,8 @@ if(openOnHost == true) {
 	setInterval(function () {
 		if(loadedSaves == true) {
 			VK.api("storage.set", {key: "saveData", value: saveData, global: 0}, function (data) {
-				//
+				log(data);
+				log(stringData);
 			});
 		}
 	}, saveTime + 600);
