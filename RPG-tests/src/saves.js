@@ -43,7 +43,7 @@ setInterval(function () {
 
 if(openOnHost == true) {
 	setInterval(function () {
-		if(loadedSaves == true) {
+		if(loadedSaves == true && dataCleared == false) {
 			VK.api("storage.set", {key: "saveData", value: stringData, global: 0}, function (data) {
 				//
 			});
