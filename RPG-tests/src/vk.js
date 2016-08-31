@@ -20,6 +20,7 @@ function reOpenVk() {
 	
     if(openOnHost == true) {
     	//User img
+    	clearData();
 	    VK.api("users.get", {fields: "photo_100", name_case: "nom"}, function (data) {
 		    photoUser = data.response[0].photo_100;
 		    log("load photo...");
