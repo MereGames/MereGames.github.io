@@ -56,7 +56,7 @@ function reOpenVk() {
 	    		loadedSaves = true;
 	    	}else {
 	    		loadedSaves = true;
-	    		log("s");
+	    		checkBrow();
 	    	}
 	     });
     }else {
