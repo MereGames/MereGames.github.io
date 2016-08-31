@@ -356,7 +356,7 @@ function loadPath(path, id, world) {
     	if(photoUser == null) {
             reOpenVk();
             if(photoUser == null || photoUser == undefined) {
-    		    photoUser = "img/uer_img.jpg";
+    		    photoUser = "img/user_img.png";
             }
     	}
     }
