@@ -30,6 +30,10 @@ function reOpenVk() {
 	    		let dataSV = JSON.parse(resp);
 
 	    		savedData = dataSV;
+	    		gameData.nextScaneId = 0;
+                        gameData.nextScaneName = "game";
+                        gameData.nextWorld = 1;
+                        gameData.numMusik = 3;
 	    		
 	    		gameData.newPlayer = false;
 
