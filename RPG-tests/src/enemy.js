@@ -62,14 +62,20 @@ function createEnemys(type, num, time) {
                 _reload: dataEnemy[type].reload,
                 call: false,
                 view: false,
+                img: "",
                 add: dataEnemy[type].add,
 
                 drawHL: function () {
-                	brush.drawRect({
+                	if(this.img == "") {
+                	this.img = game.newImageObject({
+                		file: "img/bar_0.png",
                 		x: this.x, y: this.y - 10,
-                		w: (this.health/this.maxHealth)*this.w, h: 10,
-                		fillColor: "red"
+                		w: (this.health/this.maxHealth)*this.w, h: 10
                 	});
+                    }
+                    this.img.setSize(w2h((this.health/this.maxHealth)*this.w, 10));
+                    this.img.setPosition(point(this.x, this.y - 10));
+                	this.img.draw();
                 	brush.drawRect({
                 		x: this.x, y: this.y - 10,
                 		w: this.w, h: 10,
@@ -79,7 +85,7 @@ function createEnemys(type, num, time) {
                 	brush.drawText({
                 		x: this.x + this.w/2, y: this.y - 10,
                 		w: this.w, h: 10,
-                		color: "#000",
+                		color: "lightblue",
                 		align: "center",
                 		text: this.health + "/" + this.maxHealth
                 	});

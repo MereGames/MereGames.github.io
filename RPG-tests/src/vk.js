@@ -21,6 +21,14 @@ function reOpenVk() {
 		    photoUser = data.response[0].photo_100;
 		    log("load photo...");
 	    });
+
+	    VK.api("storage.get", {key: "saveData", global: 0}, function(data) {
+	    	if(data != 1) {
+	    		JSON.parse(data);
+	    		log(data);
+	    		loadedSaves = true;
+	    	}
+	     });
     }
 }
 reOpenVk();

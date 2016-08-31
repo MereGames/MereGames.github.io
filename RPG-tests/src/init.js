@@ -41,10 +41,10 @@ var fpsGame = pjs.system.getFPS();
 function drawFPS() {
 	fpsGame = system.getFPS();
 	    brush.drawTextS({
-		x: gameWidth, y: 0,
+		x: gameWidth - 5, y: gameHeight - 50,
 		size: 25,
 		align: "right",
-		color: "#fff",
+		color: "blue",
 		text: fpsGame + "FPS"
 	});
 }

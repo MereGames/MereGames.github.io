@@ -25,11 +25,24 @@ setInterval(function () {
 		skilDmg: mainPlayer.skilDmg,
 		speed: mainPlayer.speed,
 		name: mainPlayer.name,
-		activ: mainPlayer.activ
+		activ: mainPlayer.activ,
+
+		startWorld: 0,
+		startId: 0
 	}
 
 	//save
 	saveData = [dataPlayer];
 	stringData = OOP.toString(saveData);
 }, saveTime);
+
+if(openOnHost == true) {
+	setInterval(function () {
+		if(loadedSaves == true) {
+			VK.api("storage.set", {key: "saveData", value: saveData, global: 0}, function (data) {
+				//
+			});
+		}
+	}, saveTime + 700);
+}
 

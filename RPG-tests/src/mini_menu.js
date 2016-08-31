@@ -14,7 +14,7 @@
 var miniMenu = {
 	yList: 160,
 	y: 130,
-	speed: 6,
+	speed: 10,
 
 	//OPen
 	openM: function () {
@@ -27,7 +27,7 @@ var miniMenu = {
 				if(arrUIPlayer[i].y < this.yList) {
 				    arrUIPlayer[i].addY += this.speed;
 			    }else {
-			    	this.yList += 40;
+			    	this.yList += 50;
 			    }
 			}
 		}

@@ -11,7 +11,7 @@ var menuIconsObjs = [];
 const NUM_ICONS = 4;
 const NUM_SCANES = 1;
 const NUM_UI = 1;
-const NUM_BUT_MENU = 2;
+const NUM_BUT_MENU = 4;
 const NUM_SOUNDS = 2;
 const NUM_SOUNDS_ENEMY = 2;
 
@@ -208,10 +208,10 @@ function loadPath(path, id, world) {
     			addY: 20*i + 10
     		});
 
-    		let rectStat = game.newRectObject({
+    		let rectStat = game.newImageObject({
     			x: 0, y: 0,
     			w: widSTR, h: 13,
-    			fillColor: (i==0) ? "red" : (i==1) ? "blue" : ("orange")
+                file: "img/bar_"+i+".png"
     		});
     		rectStat.setUserData({
     			addX: 105,
@@ -235,10 +235,10 @@ function loadPath(path, id, world) {
     		addX: 10,
     		addY: gameHeight - 20
     	});
-    	let lvlBar = game.newRectObject({
+    	let lvlBar = game.newImageObject({
     		x: 10, y: gameHeight - 20,
     		w: gameWidth - 20, h: 10,
-    		fillColor: "#BAAA24"
+    		file: "img/bar_3.png"
     	});
     	lvlBar.setUserData({
     		addX: 10,
@@ -297,6 +297,41 @@ function loadPath(path, id, world) {
             });
 
             arrEnemyTypes.push(enm);
+        }
+
+         //Bords reload UI
+        for(let i = 6; i--;) {
+            let bordImg = game.newRectObject({
+                x: 0, y: 0,
+                w: 68, h: 68,
+                fillColor: "black",
+                alpha: 0.5
+            });
+            bordImg.setUserData({
+                addX: (i!=5) ? gameWidth - 75*i : gameWidth - 410,
+                addY: 73,
+                class: "skillBordRel",
+                ID: i,
+            });
+
+            arrUIPlayer.push(bordImg);
+        }
+
+        //Bords skills UI
+        for(let i = 6; i--;) {
+            let bordImg = game.newImageObject({
+                x: 0, y: 0,
+                w: 70, h: 70,
+                file: "img/bord.png"
+            });
+            bordImg.setUserData({
+                addX: (i!=5) ? gameWidth - 75*i : gameWidth - 410,
+                addY: 5,
+                class: "skillBord",
+                ID: i+1,
+            });
+
+            arrUIPlayer.push(bordImg);
         }
 
         /*for(let i = 0; i < gameData.numEnemy; i++) {

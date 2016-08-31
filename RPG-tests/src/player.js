@@ -45,8 +45,13 @@ mainPlayer.setUserData({
 	speed: 6,
 	name: "player",
 
-	reload: 0,
-	_reload: 60,
+	reloads: [
+	    {name: "one", num: 0, max: 60, open: true, level: 1},
+	    {name: "one", num: 0, max: 1, open: false, level: 4},
+	    {name: "one", num: 0, max: 1, open: false, level: 6},
+	    {name: "one", num: 0, max: 1, open: false, level: 8},
+	    {name: "one", num: 0, max: 1, open: false, level: 10}
+	],
 
 	activ: false,
 
@@ -104,10 +109,27 @@ mainPlayer.setUserData({
 				arrUIPlayer[p].w = (id == 0) ? (this.health/this.maxHealth)*280 : (id == 1) ? (this.engMana/this.maxEngMana)*240 : (this.superMana/this.maxSuperMana)*200;
 			}else if(arrUIPlayer[p].class == "lineLVL") {
 				arrUIPlayer[p].w = (this.opit/this.needOpit)*(gameWidth - 20);
+			}else if(arrUIPlayer[p].class == "skillBordRel") {
+				if(arrUIPlayer[p].ID != 0) {
+					arrUIPlayer[p].draw();
+					if(this.reloads[arrUIPlayer[p].ID - 1].open == false) {
+						brush.drawText({
+							x: arrUIPlayer[p].x + arrUIPlayer[p].w/2, y: arrUIPlayer[p].y + arrUIPlayer[p].h/2 - 10,
+							size: 20,
+							color: "#fff",
+							align: "center",
+							text: this.reloads[arrUIPlayer[p].ID - 1].level
+						});
+						arrUIPlayer[p].fillColor = "red";
+					}
+					arrUIPlayer[p].h = -(this.reloads[arrUIPlayer[p].ID - 1].num/this.reloads[arrUIPlayer[p].ID - 1].max)*68;
+				}
 			}
 
 		    //Draw bg stat
-		    arrUIPlayer[p].draw();
+		    if(arrUIPlayer[p].class != "skillBordRel") {
+		    	arrUIPlayer[p].draw();
+		    }
 		}
 
 		//Draw text name
@@ -145,8 +167,6 @@ mainPlayer.setUserData({
 				arrTextUp.push(getTextUp("-"+randGMG, "enemy", i, "green", 2));
 			}
 		}
-
-		this.reload = 0;
 	},
 
 	viewUpText: function () {
@@ -258,5 +278,8 @@ function gameOver() {
 	    mainPlayer.superMana = 0;
 	    mainPlayer.opit = Math.floor(mainPlayer.opit/1.6);
 	    arrEnemy = [];
+	    for(let i = dataEnemy.length; i--;) {
+	    	dataEnemy[i].addXEn = 0;
+	    }
 	}, 3000);
 }

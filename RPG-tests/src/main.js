@@ -43,6 +43,8 @@ var endTrans = true;
 
 var openInput = false;
 
+var loadedSaves = false;
+
 var viewFPS = true;
 var viewMsg = false;
 var viewHelpBl = false;
@@ -55,6 +57,10 @@ var helpsTexts = [
     "Защита",
     "Здоровье"
 ];
+
+//Keyas sittings
+var keyAtaca = "SPACE";
+var keyMenuOpen = "X";
 
 
 // ================ 'game' loop =============
@@ -477,6 +483,7 @@ function updateWorld() {
     addXBg = 0;
 }
 
+
 function updatePlayer() {
 	//Move plaer
 	movePlayer();
@@ -488,8 +495,10 @@ function updatePlayer() {
 	}
 
 	//Reload
-	if(mainPlayer.reload < mainPlayer._reload) {
-		mainPlayer.reload += 1;
+	for(let i = mainPlayer.reloads.length; i--;) {
+		if(mainPlayer.reloads[i].num < mainPlayer.reloads[i].max) {
+		    mainPlayer.reloads[i].num += 1;
+	    }
 	}
 
 	//Health
@@ -512,16 +521,17 @@ function updatePlayer() {
 		mainPlayer.level += 1;
 		mainPlayer.opit = 0;
 		mainPlayer.needOpit += mainPlayer.needOpit*2;
-		mainPlayer.hit += 1;
 
 		//Up text
-		arrTextUp.push(getTextUp("Новый уровень!", "player", 0, "orange", 0.8));
+		arrTextUp.push(getTextUp("Новый уровень!", "player", 0, "orange", 0.5));
 
 		//add hal ---------------=======*
-		mainPlayer.maxHealth += Math.floor(mainPlayer.maxHealth/5);
+		mainPlayer.maxHealth += Math.floor(mainPlayer.maxHealth/4);
 		mainPlayer.health = mainPlayer.maxHealth;
-		mainPlayer.maxEngMana += Math.floor(mainPlayer.maxEngMana/5);
+		mainPlayer.maxEngMana += Math.floor(mainPlayer.maxEngMana/4);
 		mainPlayer.engMana = mainPlayer.maxEngMana;
+		mainPlayer.hit += 1;
+		mainPlayer.dameg += Math.floor(mainPlayer.dameg/3);
 	}
 
 	//draw ui
@@ -630,9 +640,18 @@ function mouseEvents() {
 
 //Keyboard
 function keyboardEvents() {
-	if(key.isDown("N") && mainPlayer.reload == mainPlayer._reload) {
+	if(key.isDown(keyAtaca) && mainPlayer.reloads[0].num == mainPlayer.reloads[0].max) {
 		mainPlayer.atacing();
+		mainPlayer.reloads[0].num = 0;
 		mainPlayer.boom1.play();
+	}
+
+	if(key.isPress(keyMenuOpen)) {
+		if(openMenu == true) {
+			openMenu = false;
+		}else if(openMenu == false) {
+			openMenu = true;
+		}
 	}
 }
 
@@ -703,7 +722,7 @@ if(gameData.newPlayer == true) {
 }
 
 //Version PointJS
-log("Engine: PointJS 0.5.8 whith my context");
+log("Engine: PointJS 0.5.9 whith my context");
 
 //Check Chrome Browser and Mobile version
 if(userAg.browser.family == "Chrome" || userAg.browser.family == "chrome") {
