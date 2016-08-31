@@ -30,9 +30,9 @@ mainPlayer.setUserData({
 	superMana: 0,
 	maxSuperMana: 80,
 
-	level: 2,
+	level: 1,
 	opit: 0,
-	needOpit: 300,
+	needOpit: 150,
 
 	hit: 1,
 
