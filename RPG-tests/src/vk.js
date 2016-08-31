@@ -12,6 +12,7 @@ var photoUser = null;
 var openOnHost = (window.location.hostname == "meregames.github.io") || false;
 var loadedSaves = false;
 var savedData = undefined;
+var dataCleared = false;
 
 
 function reOpenVk() {
@@ -65,6 +66,7 @@ function reOpenVk() {
 function clearData() {
 	VK.api("storage.set", {key: "saveData", value: "", global: 0}, function (data) {
 		log("data clear ---------");
+		dataCleared = true;
 	});
 }
 
