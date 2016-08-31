@@ -310,8 +310,9 @@ game.newLoop('loadingScane', function () {
             gameData.numEnemy = dataMap.numEnemy;
         });
         oepnRead = true;
-    }else {
+    }else if(gameData.nextScaneName == "menu"){
     	dataMap.maxSize = 2;
+    	log(gameData.nextScaneName);
     }
 
     if(scaneGame.draw == undefined) {
@@ -340,7 +341,7 @@ game.newLoop('loadingScane', function () {
     drawLoading();
 
     //Is loaded
-	if(resources.getProgress() >= 99 && dataMap.maxSize != undefined) {
+	if(resources.isLoaded() && resources.getProgress() >= 99 && dataMap.maxSize != undefined) {
 
 		game.startLoop(gameData.nextScaneName);
 		gameLog('Go to ' + gameData.nextScaneName, 'RPG', 'Done');
@@ -457,6 +458,7 @@ function updateWorld() {
     	mainPlayer.drawFrames(mainPlayer.strFram, mainPlayer.endFram);
     }
 
+    if(dataMap.pogod == true) {
     sizeMap = addSize*2;
 	for(let s = sizeMap; s--;) {
 	    pogotInim.x = addXBg;
@@ -481,6 +483,7 @@ function updateWorld() {
     }
 
     addXBg = 0;
+  }
 }
 
 
@@ -720,6 +723,7 @@ var iterStr = setInterval(function () {
         gameData.nextScaneName = startLocat;
         gameData.nextWorld = startWorld;
         gameData.numMusik = 3;
+        checkBrow();
 
         clearInterval(iterStr);
     }else if(openOnHost == true) {
@@ -731,6 +735,7 @@ var iterStr = setInterval(function () {
 log("Engine: PointJS 0.5.9 whith my context");
 
 //Check Chrome Browser and Mobile version
+function checkBrow() {
 if(userAg.browser.family == "Chrome" || userAg.browser.family == "chrome") {
 	//Load
 	if(!deviceJs.android() && !deviceJs.ios() && !deviceJs.ipad() && !deviceJs.iphone() && !deviceJs.mobile()) {
@@ -753,4 +758,5 @@ if(userAg.browser.family == "Chrome" || userAg.browser.family == "chrome") {
 	gameLog("Stop game! Browser not Chrome!", "DTC", "Stop");
 	userAg = null;
 	deviceJs = null;
+}
 }
