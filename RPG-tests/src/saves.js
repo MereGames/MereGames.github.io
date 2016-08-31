@@ -21,7 +21,7 @@ setInterval(function () {
 	    maxSuperMana: mainPlayer.maxSuperMana,
 
 		defent: mainPlayer.defent,
-		dameg: mainPlayer.dameg,
+		dameg: 6//mainPlayer.dameg,
 		skilDmg: mainPlayer.skilDmg,
 		speed: mainPlayer.speed,
 		name: mainPlayer.name,
