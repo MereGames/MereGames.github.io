@@ -38,6 +38,9 @@ function reOpenVk() {
                 checkBrow();
 
                 mainPlayer.health = saveData[0].health;
+                 mainPlayer.maxHealth = saveData[0].maxHealth;
+                mainPlayer.engMana = saveData[0].engMana;
+                mainPlayer.maxEngMana = saveData[0].maxEngMana;
 	    		
 	    		gameData.newPlayer = false;
 
