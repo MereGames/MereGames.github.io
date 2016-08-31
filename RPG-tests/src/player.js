@@ -19,7 +19,7 @@ var mainPlayer = game.newAnimationObject({
 	alpha: 1,
 	visible: true
 });
-
+log("s");
 //My data for obj 'player'
 mainPlayer.setUserData({
 	//Baze
