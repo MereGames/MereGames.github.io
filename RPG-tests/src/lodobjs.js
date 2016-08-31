@@ -353,12 +353,12 @@ function loadPath(path, id, world) {
 
 
     	//user img
-    	if(photoUser == null) {
+    	//if(photoUser == null) {
             //reOpenVk();
-            if(photoUser == null || photoUser == undefined) {
+            //if(photoUser == null || photoUser == undefined) {
     		    photoUser = "img/user_img.png";
-            }
-    	}
+            //}
+    	//}
     }
 
     //
