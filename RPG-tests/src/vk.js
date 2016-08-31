@@ -31,6 +31,12 @@ function reOpenVk() {
 
 	    		savedData = dataSV;
 	    		
+	    		gameData.nextScaneId = startId;
+        gameData.nextScaneName = startLocat;
+        gameData.nextWorld = startWorld;
+        gameData.numMusik = 3;
+        checkBrow();
+	    		
 	    		gameData.newPlayer = false;
 
 	    		loadedSaves = true;
