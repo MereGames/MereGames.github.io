@@ -720,6 +720,8 @@ var iterStr = setInterval(function () {
         gameData.numMusik = 3;
 
         clearInterval(iterStr);
+    }else if(openOnHost == true) {
+    	clearInterval(iterStr);
     }
 }, 100);
 
