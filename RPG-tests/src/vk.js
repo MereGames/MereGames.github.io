@@ -49,8 +49,6 @@ function reOpenVk() {
                 gameData.nextWorld = 1;
                 gameData.numMusik = 3;
                 checkBrow();
-
-                mainPlayer.health = saveData.health;
 	    		
 	    		gameData.newPlayer = false;
 
