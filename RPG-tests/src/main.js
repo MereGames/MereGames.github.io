@@ -310,6 +310,8 @@ game.newLoop('loadingScane', function () {
             gameData.numEnemy = dataMap.numEnemy;
         });
         oepnRead = true;
+    }else {
+    	dataMap.maxSize = 2;
     }
 
     if(scaneGame.draw == undefined) {
