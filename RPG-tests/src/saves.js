@@ -49,6 +49,6 @@ if(openOnHost == true) {
 				log(stringData);
 			});
 		}
-	}, saveTime + 600);
+	}, saveTime + 30);
 }
 
