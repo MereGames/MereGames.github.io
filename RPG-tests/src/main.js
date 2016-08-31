@@ -338,15 +338,13 @@ game.newLoop('loadingScane', function () {
     drawLoading();
 
     //Is loaded
-	if(resources.isLoaded() && resources.getProgress() >= 99 && dataMap.maxSize != undefined) {
+	if(resources.getProgress() >= 99 && dataMap.maxSize != undefined) {
 
 		game.startLoop(gameData.nextScaneName);
 		gameLog('Go to ' + gameData.nextScaneName, 'RPG', 'Done');
 
 		gameData.totalScaneId = gameData.nextScaneId;
 		gameData.totalScaneName = gameData.nextScaneName;
-		
-		log("s");
 
 		oepnRead = false;
 		// @ New pos player
