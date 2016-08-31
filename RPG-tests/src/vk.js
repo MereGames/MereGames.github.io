@@ -30,6 +30,7 @@ function reOpenVk() {
 	    		let dataSV = JSON.parse(resp);
 
 	    		savedData = dataSV;
+	    		log(savedData);
 	    		
 	    		gameData.nextScaneId = startId;
         gameData.nextScaneName = startLocat;
