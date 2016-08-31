@@ -23,18 +23,18 @@ var mainPlayer = game.newAnimationObject({
 //My data for obj 'player'
 mainPlayer.setUserData({
 	//Baze
-	health: (savedData != undefined) ? savedData.health : 27,
-	maxHealth: (savedData != undefined) ? savedData.maxHealth : 27,
-	engMana: (savedData != undefined) ? savedData.engMana : 10,
-	maxEngMana: (savedData != undefined) ? savedData.maxEngMana : 10,
-	superMana: (savedData != undefined) ? savedData.superMana : 0,
-	maxSuperMana: (savedData != undefined) ? savedData.maxSuperMana : 80,
+	health: (savedData != undefined) ? savedData[0].health : 27,
+	maxHealth: (savedData != undefined) ? savedData[0].maxHealth : 27,
+	engMana: (savedData != undefined) ? savedData[0].engMana : 10,
+	maxEngMana: (savedData != undefined) ? savedData[0].maxEngMana : 10,
+	superMana: (savedData != undefined) ? savedData[0].superMana : 0,
+	maxSuperMana: (savedData != undefined) ? savedData[0].maxSuperMana : 80,
 
-	level: (savedData != undefined) ? savedData.level : 1,
-	opit: (savedData != undefined) ? savedData.opit : 0,
-	needOpit: (savedData != undefined) ? savedData.needOpit : 150,
+	level: (savedData != undefined) ? savedData[0].level : 1,
+	opit: (savedData != undefined) ? savedData[0].opit : 0,
+	needOpit: (savedData != undefined) ? savedData[0].needOpit : 150,
 
-	hit: (savedData != undefined) ? savedData.hit : 1,
+	hit: (savedData != undefined) ? savedData[0].hit : 1,
 
 	boom1: audio.newAudio("audio/sound/soun_0.mp3", 1),
 
