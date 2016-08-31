@@ -30,10 +30,10 @@ function reOpenVk() {
 	    		let dataSV = JSON.parse(resp);
 
 	    		savedData = dataSV;
-	    		mainPlayer.health = saveData[0].health;
-                        mainPlayer.maxHealth = saveData[0].maxHealth;
-                        mainPlayer.engMana = saveData[0].engMana;
-                        mainPlayer.maxEngMana = saveData[0].maxEngMana;
+	    		mainPlayer.health = savedData[0].health;
+                        mainPlayer.maxHealth = savdeData[0].maxHealth;
+                        mainPlayer.engMana = savedData[0].engMana;
+                        mainPlayer.maxEngMana = savedData[0].maxEngMana;
 	    		log(savedData[0].health);
 
 	    		gameData.nextScaneId = 0;
