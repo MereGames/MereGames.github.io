@@ -33,7 +33,7 @@ setInterval(function () {
 
 	//save
 	saveData = [dataPlayer];
-	stringData = OOP.toString(saveData);
+	stringData = JSON.stringify(saveData);
 }, saveTime);
 
 if(openOnHost == true) {
