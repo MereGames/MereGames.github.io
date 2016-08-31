@@ -34,7 +34,6 @@ function reOpenVk() {
 	    		gameData.newPlayer = false;
 
 	    		loadedSaves = true;
-	    		log("s");
 	    	}else {
 	    		loadedSaves = true;
 	    	}
