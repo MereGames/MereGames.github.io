@@ -34,7 +34,6 @@ function reOpenVk() {
                         mainPlayer.maxHealth = savedData[0].maxHealth;
                         mainPlayer.engMana = savedData[0].engMana;
                         mainPlayer.maxEngMana = savedData[0].maxEngMana;
-	    		log(savedData[0].health);
 
 	    		gameData.nextScaneId = 0;
                 gameData.nextScaneName = "game";
