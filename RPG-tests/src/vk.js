@@ -26,7 +26,7 @@ function reOpenVk() {
 	    	if(data.response != "") {
 	    		let resp = data.response[1];
 	    		//let dataSV = JSON.parse(resp);
-	    		log(dataSV);
+	    		log(data);
 	    	}
 	    	loadedSaves = true;
 	     });
