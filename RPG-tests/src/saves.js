@@ -19,6 +19,9 @@ setInterval(function () {
 	    maxEngMana: mainPlayer.maxEngMana,
 	    superMana: mainPlayer.superMana,
 	    maxSuperMana: mainPlayer.maxSuperMana,
+	    
+	    xPl: mainPlayer.x,
+	    yPl: mainPlayer.y,
 
 		defent: mainPlayer.defent,
 		dameg: mainPlayer.dameg,
