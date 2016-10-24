@@ -310,6 +310,7 @@ var loadingDone = false;
 //Визуальная загрузка игры...
 function loadGame()
 {
+audioGame.play();
 	if(loadingDone == false) {
 	    ctx.drawImage(fonImage, obj_fon.x, obj_fon.y);
 	    ctx.drawImage(skyImage, obj_sky.x, obj_sky.y);
