@@ -7,5 +7,5 @@
 var timesLoad = [
     {name: "butCon", time: 1500},
     {name: "befoLogo", time: 1000},
-    {name: "inLevel", time: 1000}
+    {name: "inLevel", time: 5000}
 ];
